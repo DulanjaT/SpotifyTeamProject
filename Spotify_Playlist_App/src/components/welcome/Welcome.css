@@ -1,0 +1,9 @@
+#welcome{
+    background-color: green;
+    width: 100vh;
+    text-align: center;
+    border-radius: 20px;
+    justify-content: center;
+    padding: 15px;
+    
+}
