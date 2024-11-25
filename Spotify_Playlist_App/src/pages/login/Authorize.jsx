@@ -3,6 +3,12 @@ import authorizePKCE from "../../spotify/auth/authorizePKCE";
 
 export default function Authorize()
 {
+	if (!import.meta.env.VITE_SPOTIFY_CLIENT_ID
+		|| !import.meta.env.VITE_SPOTIFY_REDIRECT_URI
+		|| !import.meta.env.VITE_SPOTIFY_SCOPE)
+		return (
+			<p>Missing environment variables</p>
+		);
 	if (window.localStorage.getItem("accessToken")
 		&& window.localStorage.getItem("refreshToken")
 		&& window.localStorage.getItem("tokenExpiration"))

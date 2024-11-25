@@ -9,6 +9,7 @@ import App from "./pages/App";
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
 //https://react.dev/reference/react/useState#caveats
+//GetToken path must match Spotify redirect URI
 createRoot(document.getElementById('root')).render(
 	//<StrictMode>
 		<BrowserRouter>
