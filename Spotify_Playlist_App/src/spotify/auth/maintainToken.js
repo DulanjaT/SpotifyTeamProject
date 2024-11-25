@@ -20,6 +20,7 @@ export default function maintainToken(data)
 		if (res.status !== 200)
 		{
 			//Should probably throw user back to authorization page?
+			//Alt; modal
 			return ;
 		}
 		const newData = await res.json();

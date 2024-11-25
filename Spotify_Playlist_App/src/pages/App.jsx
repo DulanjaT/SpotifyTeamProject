@@ -1,6 +1,10 @@
+import Demo from "../components/Demo/Demo";
+
 export default function App()
 {
 	return (
-		<h1>Would be cool if there was something here</h1>
+		<div>
+			<Demo />
+		</div>
 	);
 }

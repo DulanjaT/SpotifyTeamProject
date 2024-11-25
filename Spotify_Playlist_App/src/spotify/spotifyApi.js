@@ -1,3 +1,4 @@
+/*
 import axios from 'axios';
 
 export const searchSongs = async (query) => {
@@ -25,3 +26,4 @@ export const searchSongs = async (query) => {
     return [];
   }
 };
+*/

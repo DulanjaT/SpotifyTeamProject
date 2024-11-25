@@ -1,12 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import { BrowserRouter, Routes, Route } from 'react-router';
+
 import Root from "./pages/Root";
 import Authorize from "./pages/login/Authorize";
 import GetToken from "./pages/login/GetToken";
 import App from "./pages/App";
 
+//Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
+//https://react.dev/reference/react/useState#caveats
 createRoot(document.getElementById('root')).render(
 	//<StrictMode>
 		<BrowserRouter>
