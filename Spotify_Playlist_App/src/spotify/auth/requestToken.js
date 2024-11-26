@@ -21,21 +21,27 @@ async function requestToken(code, setState, setError)
 		},
 		body: new URLSearchParams({
 			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-			redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI,
+			redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI + "s",
 			grant_type: "authorization_code",
 			code,
 			code_verifier
 		})
 	});
-	if (res.status !== 200)
+	if (res.status === 200)
 	{
-		setState(TokenComponentState.error)
-		setError("Elaborate");
-		return ;
+		const data = await res.json();
+		maintainToken(data);
+		return (setState(TokenComponentState.success));
 	}
-	const data = await res.json();
-	maintainToken(data);
-	setState(TokenComponentState.success);
+
+	let error = `Error ${res.status}`;
+	if (res.status === 400)
+	{
+		const data = await res.json()
+		error += `: ${data.error_description}`;
+	}
+	setError(error);
+	setState(TokenComponentState.error);
 }
 
 export {TokenComponentState, requestToken};

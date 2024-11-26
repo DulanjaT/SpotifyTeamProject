@@ -21,11 +21,11 @@ export default function GetToken()
 		}
 		setState(TokenComponentState.error);
 		//Missing parameters should probably trigger redirect to authorize again
-		setError(urlParams.get("error") || "Params missing");
+		setError("Error: " + (urlParams.get("error") || "Params missing"));
 	} else if (state === TokenComponentState.error)
 	{
 		return (
-			<h1>Error: {error}</h1>
+			<h1>{error}</h1>
 		);
 	}
 }
