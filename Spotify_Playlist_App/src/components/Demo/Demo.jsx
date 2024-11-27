@@ -1,5 +1,6 @@
 import { useState } from "react";
 import requestWrapper from "../../spotify/requestWrapper";
+import CreatePlaylistDemo from "../CreatePlaylistDemo/CreatePlaylistDemo";
 
 export default function Demo()
 {
@@ -9,7 +10,10 @@ export default function Demo()
 	if (data)
 	{
 		return (
-			<h1>Logged in as {data.display_name}</h1>
+			<div>
+				<h1>Logged in as {data.display_name}</h1>
+				<CreatePlaylistDemo userID={data.id}/>
+			</div>
 		);
 	} else if(error)
 	{
