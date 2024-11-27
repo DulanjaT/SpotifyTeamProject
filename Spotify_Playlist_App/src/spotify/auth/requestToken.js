@@ -21,7 +21,7 @@ async function requestToken(code, setState, setError)
 		},
 		body: new URLSearchParams({
 			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-			redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI + "s",
+			redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI,
 			grant_type: "authorization_code",
 			code,
 			code_verifier
