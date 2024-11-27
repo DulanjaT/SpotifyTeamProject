@@ -14,7 +14,7 @@ async function requestToken(code, setState, setError)
 	const code_verifier = window.localStorage.getItem("codeVerifier");
 	window.localStorage.removeItem("codeVerifier");
 
-	const res = await fetch("/api/token", {
+	const res = await fetch("https://accounts.spotify.com/api/token", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded"
