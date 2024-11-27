@@ -6,6 +6,9 @@ import Root from "./pages/Root";
 import Authorize from "./pages/login/Authorize";
 import GetToken from "./pages/login/GetToken";
 import App from "./pages/App";
+import Demo from './components/Demo/ArtistDemo';
+import Artist from './components/Demo/ArtistDemo';
+import SpotifyPlayer from './pages/Player';
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
 //https://react.dev/reference/react/useState#caveats
@@ -19,6 +22,10 @@ createRoot(document.getElementById('root')).render(
 					<Route index element={<Authorize />} />
 					<Route path="getToken" element={<GetToken />} />
 					<Route path="app" element={<App />} />
+					<Route path="demo" element={<Demo />} />
+					<Route path="artist" element={<Artist />} />
+					<Route path="player" element={<SpotifyPlayer />} />
+
 				</Route>
 			</Routes>
 		</BrowserRouter>
