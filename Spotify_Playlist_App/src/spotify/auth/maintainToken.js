@@ -12,7 +12,7 @@ export default function maintainToken(data)
 				"Content-Type": "application/x-www-form-urlencoded"
 			},
 			body: new URLSearchParams({
-				client_id: "b65de9d727fd43d8a0c766bbdcbb842b",
+				client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
 				grant_type: "refresh_token",
 				refresh_token: data.refresh_token
 			})
