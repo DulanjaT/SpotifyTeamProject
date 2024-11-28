@@ -6,13 +6,11 @@ import Root from "./pages/Root";
 import Authorize from "./pages/login/Authorize";
 import GetToken from "./pages/login/GetToken";
 import App from "./pages/App";
-import Demo from './components/Demo/ArtistDemo';
-import Artist from './components/Demo/ArtistDemo';
-import SpotifyPlayer from './pages/Player';
+import ArtistDemo from './pages/ArtistDemo';
+import Player from './pages/Player';
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
 //https://react.dev/reference/react/useState#caveats
-//GetToken path must match Spotify redirect URI
 //Router docs here: https://reactrouter.com/start/library/routing
 createRoot(document.getElementById('root')).render(
 	//<StrictMode>
@@ -22,10 +20,8 @@ createRoot(document.getElementById('root')).render(
 					<Route index element={<Authorize />} />
 					<Route path="getToken" element={<GetToken />} />
 					<Route path="app" element={<App />} />
-					<Route path="demo" element={<Demo />} />
-					<Route path="artist" element={<Artist />} />
-					<Route path="player" element={<SpotifyPlayer />} />
-
+					<Route path="artist" element={<ArtistDemo />} />
+					<Route path="player" element={<Player />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
