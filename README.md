@@ -1,6 +1,6 @@
 # SpotifyTeamProject
 ## Installation instructions
-In Spotify_Playlist_App/
+In project directory
 * Run `npm install`
 * Copy `example.env` to `.env`
 * Fill in the Client ID variable
