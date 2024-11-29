@@ -1,8 +1,9 @@
 # SpotifyTeamProject
-## New changes to the project
+## Installation instructions
+In project directory
+* Run `npm install`
+* Copy `example.env` to `.env`
+* Fill in the Client ID variable
 
-[!NOTE] to run these new changes you have to download a few new packages:
-- In the root: npm install
-- In server folder: npm install
-Now everything should work fine.
-
+In Spotify developer dashboard settings for your project
+* Ensure that the redirect URI matches what is in the `.env` file
