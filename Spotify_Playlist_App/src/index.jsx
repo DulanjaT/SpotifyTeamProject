@@ -7,6 +7,7 @@ import Authorize from "./pages/login/Authorize";
 import GetToken from "./pages/login/GetToken";
 import App from "./pages/App";
 import ArtistDemo from './pages/ArtistDemo';
+import WebPlayback from './components/WebPlayback/WebPlayback';
 import Player from './pages/Player';
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
@@ -21,7 +22,10 @@ createRoot(document.getElementById('root')).render(
 					<Route path="getToken" element={<GetToken />} />
 					<Route path="app" element={<App />} />
 					<Route path="artist" element={<ArtistDemo />} />
-					<Route path="player" element={<Player />} />
+					<Route path="player" element={<WebPlayback />} />
+					<Route path="playlist" element={<Player />} />
+					
+					
 				</Route>
 			</Routes>
 		</BrowserRouter>

@@ -10,6 +10,7 @@ export default function Header()
 				<li><Link to="/app">App (Playlist Demo)</Link></li>
 				<li><Link to="/artist">Artist Demo</Link></li>
 				<li><Link to="/player">Player</Link></li>
+				<li><Link to="/playlist">All User Playlists</Link></li>
 			</ul>
 		</nav>
 	);
