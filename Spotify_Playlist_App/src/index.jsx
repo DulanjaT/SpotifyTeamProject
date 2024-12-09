@@ -10,25 +10,32 @@ import ArtistDemo from './pages/ArtistDemo';
 import WebPlayback from './components/WebPlayback/WebPlayback';
 import Player from './pages/Player';
 import UserPlaylists from './components/UserPlaylists/UserPlaylists';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import UserInfo from './components/UserInfo/UserInfo';
+
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
 //https://react.dev/reference/react/useState#caveats
 //Router docs here: https://reactrouter.com/start/library/routing
 createRoot(document.getElementById('root')).render(
 	//<StrictMode>
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<Root />}>
-					<Route index element={<Authorize />} />
-					<Route path="getToken" element={<GetToken />} />
-					<Route path="app" element={<App />} />
-					<Route path="artist" element={<ArtistDemo />} />
-					<Route path="player" element={<WebPlayback />} />
-					<Route path="playlist" element={<UserPlaylists />} />
-					
-					
-				</Route>
-			</Routes>
-		</BrowserRouter>
+	<BrowserRouter>
+		<Routes>
+			<Route path="/" element={<Root />}>
+				<Route index element={<Authorize />} />
+				<Route path="getToken" element={<GetToken />} />
+				<Route path="app" element={<App />} />
+				<Route path="artist" element={<ArtistDemo />} />
+				<Route path="player" element={<WebPlayback />} />
+				<Route path="playlist" element={<UserPlaylists />} />
+				<Route path="userInfo" element={<UserInfo />} />
+				
+
+			</Route>
+		</Routes>
+	</BrowserRouter>
 	//</StrictMode>
 );

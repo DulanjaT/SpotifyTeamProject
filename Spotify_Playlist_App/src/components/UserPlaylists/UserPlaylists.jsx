@@ -1,49 +1,55 @@
 import { useEffect, useState } from "react";
+import { List, ListItem, ListItemButton, ListItemText, Box, Typography } from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
 import PlaylistTracks from "../PlaylistTracks/PlaylistTracks";
 
 export default function UserPlaylists() {
   const [playlists, setPlaylists] = useState(null);
   const [error, setError] = useState(null);
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null); // State to track the selected playlist
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
   useEffect(() => {
-    // Fetch playlists from the Spotify API
     requestWrapper("me/playlists", null, setPlaylists, setError);
   }, []);
 
   if (error) {
     return (
-      <h1>
-        Error {error.status}
-        {error.message ? `: ${error.message}` : ""}
-      </h1>
+      <Typography variant="h6" color="error">
+        Error: {error.message}
+      </Typography>
     );
   }
 
   if (!playlists) {
-    return <h1>Loading playlists...</h1>;
+    return <Typography>Loading playlists...</Typography>;
   }
 
-  // If a playlist is selected, show the PlaylistTracks component
   if (selectedPlaylist) {
-    return <PlaylistTracks playlistId={selectedPlaylist} onBack={() => setSelectedPlaylist(null)} />;
+    return (
+      <PlaylistTracks
+        playlistId={selectedPlaylist}
+        onBack={() => setSelectedPlaylist(null)}
+      />
+    );
   }
 
   return (
-    <div>
-      <h1>Your Playlists</h1>
-      <ul>
-        {playlists.items
-          .filter((playlist) => playlist !== null) // Filter out null playlists
-          .map((playlist, index) => (
-            <li key={playlist.id || `playlist-${index}`}>
-              <button onClick={() => setSelectedPlaylist(playlist.id)}>
-                {playlist.name}
-              </button>
-            </li>
-          ))}
-      </ul>
-    </div>
+    <Box p={2}>
+      <Typography variant="h5" gutterBottom>
+        Your Playlists
+      </Typography>
+      <List>
+  {playlists.items.map((playlist) => {
+    if (!playlist || !playlist.name) return null; // Skip invalid playlists
+    return (
+      <ListItem key={playlist.id} disablePadding>
+        <ListItemButton onClick={() => setSelectedPlaylist(playlist.id)}>
+          <ListItemText primary={playlist.name} />
+        </ListItemButton>
+      </ListItem>
+    );
+  })}
+</List>
+    </Box>
   );
 }
