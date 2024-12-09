@@ -5,7 +5,9 @@ import "./ArtistDemo.css"
 export default function Artist() {
 	const [data, setData] = useState(null);
 	const [error, setError] = useState(null);
-
+console.log(data)
+console.log(data.name,"name")
+console.log(data.genres,"genres")
 	if (data) {
 		return (
 			<div className="card">

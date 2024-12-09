@@ -17,6 +17,7 @@ import '@fontsource/roboto/700.css';
 import UserInfo from './components/UserInfo/UserInfo';
 import MainLayout from './components/MainLayout/MainLayout';
 import { CssBaseline } from '@mui/material';
+import CreatePlaylistDemo from './components/CreatePlaylistDemo/CreatePlaylistDemo';
 
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
@@ -35,6 +36,7 @@ createRoot(document.getElementById('root')).render(
 				<Route path="player" element={<WebPlayback />} />
 				<Route path="playlist" element={<UserPlaylists />} />
 				<Route path="userInfo" element={<UserInfo />} />
+				<Route path="demo" element={<ArtistDemo />} />
 				
 
 			</Route>
