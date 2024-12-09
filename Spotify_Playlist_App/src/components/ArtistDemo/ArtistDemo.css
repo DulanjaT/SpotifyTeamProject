@@ -1,0 +1,66 @@
+/* General Page Styles */
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #121212; /* Spotify's dark background color */
+    color: white; /* White text */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    width: 300px; /* Limit the card width */
+    margin: 0 auto; /* Center the card on the page */
+  }
+  
+  /* Artist Name */
+  .card h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 10px 0;
+    color: #1DB954; /* Spotify's green accent */
+  }
+  
+  /* Popularity Paragraph */
+  .card p {
+    font-size: 16px;
+    margin: 8px 0;
+    color: #b3b3b3; /* Subtle grey text for additional information */
+  }
+  /* Labels */
+  .label {
+    font-size: 1.2em; /* Slightly larger text for "Genres:" */
+    font-weight: bold; /* Bold text for emphasis */
+    margin-right: 5px; /* Add some space between the label and the genres */
+  }
+  /* Descriptions */
+  .description {
+    font-size: 1em; /* Regular font size for genres */
+    color: #b3b3b3; /* Subtle grey text for genres */
+  }
+  
+  /* Artist Image */
+  .card img {
+    max-width: 100%; /* Ensure the image doesn't overflow */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 12px; /* Rounded edges for the image */
+    margin: 15px 0;
+  }
+  
+  /* External URL Link */
+  .card a {
+    text-decoration: none; /* Remove underline */
+    color: #1DB954; /* Spotify green */
+    font-weight: 500;
+    margin-top: 15px;
+    display: inline-block; /* Make the link behave like a button */
+    border: 1px solid #1DB954; /* Add a border to match the link color */
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s; /* Smooth hover effect */
+  }
+  
+  .card a:hover {
+    background-color: #1DB954; /* Green background on hover */
+    color: white; /* White text on hover */
+  }

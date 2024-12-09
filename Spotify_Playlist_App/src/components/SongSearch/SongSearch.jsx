@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { searchSongs } from '../../services/spotifyApi';
+
 
 const SongSearch = () => {
   const [query, setQuery] = useState('');         // User input for search
