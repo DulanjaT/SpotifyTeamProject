@@ -15,6 +15,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import UserInfo from './components/UserInfo/UserInfo';
+import MainLayout from './components/MainLayout/MainLayout';
+import { CssBaseline } from '@mui/material';
 
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
@@ -23,11 +25,12 @@ import UserInfo from './components/UserInfo/UserInfo';
 createRoot(document.getElementById('root')).render(
 	//<StrictMode>
 	<BrowserRouter>
+	<CssBaseline />
 		<Routes>
 			<Route path="/" element={<Root />}>
 				<Route index element={<Authorize />} />
 				<Route path="getToken" element={<GetToken />} />
-				<Route path="app" element={<App />} />
+				<Route path="app" element={<MainLayout />} />
 				<Route path="artist" element={<ArtistDemo />} />
 				<Route path="player" element={<WebPlayback />} />
 				<Route path="playlist" element={<UserPlaylists />} />

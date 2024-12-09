@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { List, ListItem, ListItemButton, ListItemText, Box, Typography } from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
 import PlaylistTracks from "../PlaylistTracks/PlaylistTracks";
-
+import fallbackImage from "../../assets/musicIcon.jpg";
 export default function UserPlaylists() {
   const [playlists, setPlaylists] = useState(null);
   const [error, setError] = useState(null);
@@ -41,11 +41,16 @@ export default function UserPlaylists() {
       <List>
   {playlists.items.map((playlist) => {
     if (!playlist || !playlist.name) return null; // Skip invalid playlists
+    const imageSrc = playlist.images?.[0]?.url || fallbackImage; // Use playlist image or fallback image
     return (
       <ListItem key={playlist.id} disablePadding>
         <ListItemButton onClick={() => setSelectedPlaylist(playlist.id)}>
-          <ListItemText primary={playlist.name} />
+          <ListItemText
+          primary={playlist.name}
+          secondary={`Tracks: ${playlist.tracks.total}`}
+          />
         </ListItemButton>
+        <img src={imageSrc} alt={playlist.name} width="50" />
       </ListItem>
     );
   })}

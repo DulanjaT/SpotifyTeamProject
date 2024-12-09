@@ -26,8 +26,8 @@ export default function UserInfo() {
         alt={userInfo.display_name || "User Avatar"}
         sx={{ width: 56, height: 56 }}
       />
-      <Typography variant="h6" sx={{ ml: 2 }}>
-        Welcome, {userInfo.display_name}!
+     <Typography sx={{ ml: 1, fontSize: "0.875rem", color: "white" }}>
+        {userInfo.display_name}!
       </Typography>
     </Box>
   );
