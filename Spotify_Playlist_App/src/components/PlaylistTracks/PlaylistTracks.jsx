@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { List, ListItem, ListItemText, Box, Typography, Button, Grid2 } from "@mui/material";
+import { List, ListItem, ListItemText, Box, Typography, Button, Grid } from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
+import { useOutletContext } from "react-router";
+
 
 export default function PlaylistTracks({ playlistId, onBack }) {
+  const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletContext
   const [tracks, setTracks] = useState(null);
   const [error, setError] = useState(null);
 
@@ -32,20 +35,20 @@ export default function PlaylistTracks({ playlistId, onBack }) {
       </Typography>
 
       {/* Table Header */}
-      <Grid2 container sx={{ fontWeight: "bold", p: 1, borderBottom: "1px solid #333" }}>
-        <Grid2 item xs={1}>
+      <Grid container sx={{ fontWeight: "bold", p: 1, borderBottom: "1px solid #333" }}>
+        <Grid item="true" xs={1}>
           #
-        </Grid2>
-        <Grid2 item xs={7}>
+        </Grid>
+        <Grid item="true" xs={7}>
           Title
-        </Grid2>
-        <Grid2 item xs={3} sx={{color: "#ffff"}}>
+        </Grid>
+        <Grid item="true" xs={3} sx={{ color: "#ffff" }}>
           Artist
-        </Grid2>
-        <Grid2 item xs={1} sx={{ textAlign: "right" }}>
+        </Grid>
+        <Grid item="true" xs={1} sx={{ textAlign: "right" }}>
           Duration
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
 
       {/* Track List */}
       <List>
@@ -62,25 +65,37 @@ export default function PlaylistTracks({ playlistId, onBack }) {
           const duration = new Date(track.duration_ms).toISOString().substr(14, 5);
 
           return (
-            <ListItem key={index} sx={{ display: "flex", py: 1, borderBottom: "1px solid #333" }}>
-              <Grid2 container alignItems="center">
-                <Grid2 item xs={1}>
+            <ListItem
+              key={index}
+              sx={{ display: "flex", py: 1, borderBottom: "1px solid #333", cursor: "pointer" }}
+              onClick={() => onSelectTrack(track.uri)} // Use onSelectTrack from OutletContext
+            >
+              <Grid container alignItems="center">
+                <Grid item={true} xs={1}>
                   {index + 1}
-                </Grid2>
-                <Grid2 item xs={7}>
+                </Grid>
+                <Grid item={true} xs={7}>
                   <Typography variant="body1">{track.name}</Typography>
-                </Grid2>
-                <Grid2 item xs={3}>
-                  <Typography variant="body2" color="textSecondary">
+                </Grid>
+                <Grid item={true} xs={3}>
+                  {/* Text for artist info */}
+                  <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  >
                     {track.artists.map((a) => a.name).join(", ")}
                   </Typography>
-                </Grid2>
-                <Grid2 item xs={1} sx={{ textAlign: "right" }}>
-                  <Typography variant="body2" color="textSecondary">
+                </Grid>
+
+                <Grid item={true} xs={1} sx={{ textAlign: "right" }}>
+                  <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  >
                     {duration}
                   </Typography>
-                </Grid2>
-              </Grid2>
+                </Grid>
+              </Grid>
             </ListItem>
           );
         })}

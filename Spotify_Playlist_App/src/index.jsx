@@ -16,15 +16,15 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import UserInfo from './components/UserInfo/UserInfo';
 import MainLayout from './components/MainLayout/MainLayout';
-import { CssBaseline } from '@mui/material';
-import CreatePlaylistDemo from './components/CreatePlaylistDemo/CreatePlaylistDemo';
-
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import theme from './theme/theme';
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
 //https://react.dev/reference/react/useState#caveats
 //Router docs here: https://reactrouter.com/start/library/routing
 createRoot(document.getElementById('root')).render(
 	//<StrictMode>
+	<ThemeProvider theme={theme}>
 	<BrowserRouter>
 	<CssBaseline />
 		<Routes>
@@ -33,14 +33,16 @@ createRoot(document.getElementById('root')).render(
 				<Route path="getToken" element={<GetToken />} />
 				<Route path="app" element={<MainLayout />} />
 				<Route path="artist" element={<ArtistDemo />} />
-				<Route path="player" element={<WebPlayback />} />
+				<Route path="player" element={<Player />} />
 				<Route path="playlist" element={<UserPlaylists />} />
 				<Route path="userInfo" element={<UserInfo />} />
 				<Route path="demo" element={<ArtistDemo />} />
+			
 				
 
 			</Route>
 		</Routes>
 	</BrowserRouter>
+	</ThemeProvider>
 	//</StrictMode>
 );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid2, Typography, List, ListItem, ListItemButton, ListItemText, Avatar } from "@mui/material";
+import { Box, Grid, Typography, List, ListItem, ListItemButton, ListItemText, Avatar } from "@mui/material";
 import UserInfo from "../UserInfo/UserInfo";
 import UserPlaylists from "../UserPlaylists/UserPlaylists";
 import { Outlet } from "react-router";
@@ -9,10 +9,10 @@ export default function MainLayout() {
   return (
     <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
       {/* Main Grid */}
-      <Grid2 container sx={{ flexGrow: 1 }}>
+      <Grid container sx={{ flexGrow: 1 }}>
         {/* Sidebar */}
-        <Grid2
-          item="true"
+        <Grid
+          item={true}
           xs={2}
           sx={{
             bgcolor: "#1d1d1d",
@@ -42,11 +42,11 @@ export default function MainLayout() {
               </ListItemButton>
             </ListItem>
           </List>
-        </Grid2>
+        </Grid>
 
         {/* Main Content */}
-        <Grid2
-          item="true"
+        <Grid
+          item={true}
           xs={8}
           sx={{
             bgcolor: "#121212",
@@ -56,11 +56,11 @@ export default function MainLayout() {
           }}
           >
             <SongSearch/>
-        </Grid2>
+        </Grid>
 
         {/* User Info Section */}
-        <Grid2
-          item="true"
+        <Grid
+          item={true}
           xs={5}
           sx={{
             bgcolor: "#1d1d1d",
@@ -72,8 +72,8 @@ export default function MainLayout() {
           }}
         >
           
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     </Box>
   );
 }
