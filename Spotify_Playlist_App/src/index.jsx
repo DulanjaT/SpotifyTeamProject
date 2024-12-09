@@ -9,6 +9,7 @@ import App from "./pages/App";
 import ArtistDemo from './pages/ArtistDemo';
 import WebPlayback from './components/WebPlayback/WebPlayback';
 import Player from './pages/Player';
+import UserPlaylists from './components/UserPlaylists/UserPlaylists';
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
 //https://react.dev/reference/react/useState#caveats
@@ -23,7 +24,7 @@ createRoot(document.getElementById('root')).render(
 					<Route path="app" element={<App />} />
 					<Route path="artist" element={<ArtistDemo />} />
 					<Route path="player" element={<WebPlayback />} />
-					<Route path="playlist" element={<Player />} />
+					<Route path="playlist" element={<UserPlaylists />} />
 					
 					
 				</Route>

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import requestWrapper from "../../spotify/requestWrapper";
 import PlaylistTracks from "../PlaylistTracks/PlaylistTracks";
 
-
 export default function UserPlaylists() {
   const [playlists, setPlaylists] = useState(null);
   const [error, setError] = useState(null);
@@ -11,7 +10,6 @@ export default function UserPlaylists() {
   useEffect(() => {
     // Fetch playlists from the Spotify API
     requestWrapper("me/playlists", null, setPlaylists, setError);
-    
   }, []);
 
   if (error) {
@@ -34,13 +32,12 @@ export default function UserPlaylists() {
 
   return (
     <div>
-      
       <h1>Your Playlists</h1>
       <ul>
         {playlists.items
-          .filter((playlist) => playlist !== null) // Filter out null items
-          .map((playlist) => (
-            <li key={playlist.id}>
+          .filter((playlist) => playlist !== null) // Filter out null playlists
+          .map((playlist, index) => (
+            <li key={playlist.id || `playlist-${index}`}>
               <button onClick={() => setSelectedPlaylist(playlist.id)}>
                 {playlist.name}
               </button>
@@ -49,5 +46,4 @@ export default function UserPlaylists() {
       </ul>
     </div>
   );
- 
 }

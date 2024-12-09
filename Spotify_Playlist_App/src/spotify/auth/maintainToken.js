@@ -4,7 +4,7 @@ export default function maintainToken(data)
 {
 	window.localStorage.setItem("accessToken", data.access_token);
 	window.localStorage.setItem("refreshToken", data.refresh_token);
-	window.localStorage.setItem("tokenExpiration", Date.now() + data.expires_in / 1000);
+	window.localStorage.setItem("tokenExpiration", Date.now() + data.expires_in * 1000);
 	setTimeout(async () => {
 		const res = await fetch("https://accounts.spotify.com/api/token", {
 			method: "POST",
@@ -25,5 +25,5 @@ export default function maintainToken(data)
 		}
 		const newData = await res.json();
 		maintainToken(newData);
-	}, data.expires_in / 1000);
+	}, data.expires_in * 1000);
 }
