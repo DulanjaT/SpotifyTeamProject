@@ -1,23 +1,38 @@
 import React from "react";
-import { Box, Grid2, Typography, List, ListItem, ListItemButton, ListItemText, Avatar } from "@mui/material";
+import {
+  Box,
+  Grid2,
+  Typography,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Avatar,
+} from "@mui/material";
 import UserInfo from "../UserInfo/UserInfo";
 import UserPlaylists from "../UserPlaylists/UserPlaylists";
-import { Outlet } from "react-router";
 import SongSearch from "../SongSearch/SongSearch";
 
 export default function MainLayout() {
   return (
-    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{
+        height: "100vh", // Full viewport height
+        display: "flex",
+      }}
+    >
       {/* Main Grid */}
-      <Grid2 container sx={{ flexGrow: 1 }}>
-        {/* Sidebar */}
+
+      {/* Sidebar (Non-scrollable) */}
+      <Grid2 container sx={{ flex: 1 }}>
         <Grid2
           item="true"
-          xs={2}
           sx={{
+            width: "200px", // Added fixed width
             bgcolor: "#1d1d1d",
             color: "#fff",
             p: 2,
+            flexShrink: 0, // Prevents sidebar from shrinking
             display: "flex",
             flexDirection: "column",
           }}
@@ -46,32 +61,16 @@ export default function MainLayout() {
 
         {/* Main Content */}
         <Grid2
-          item="true"
-          xs={8}
+          item
           sx={{
+            flex: 1, // Fill remaining space
             bgcolor: "#121212",
             color: "#fff",
             p: 3,
             overflowY: "auto",
           }}
-          >
-            <SongSearch/>
-        </Grid2>
-
-        {/* User Info Section */}
-        <Grid2
-          item="true"
-          xs={5}
-          sx={{
-            bgcolor: "#1d1d1d",
-            color: "#fff",
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
-          }}
         >
-          
+          <SongSearch />
         </Grid2>
       </Grid2>
     </Box>
