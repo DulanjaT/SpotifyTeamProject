@@ -10,8 +10,8 @@ const PORT = 3001;
 
 // Use CORS middleware
 app.use(cors({
-    origin: 'http://localhost:5173' // Allow only this origin to access your API
-  }));
+  origin: 'http://localhost:5173' // Allow only this origin to access your API
+}));
 app.get('/spotify-auth', async (req, res) => {
   const clientId = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
