@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  IconButton,
-  Slider,
-  Stack,
-} from "@mui/material";
+import { Box, Typography, IconButton, Slider, Stack } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -58,7 +52,7 @@ export default function SimpleWebPlayer({ trackUri }) {
           artistName: state.track_window.current_track.artists
             .map((artist) => artist.name)
             .join(", "),
-          duration: Math.floor(state.duration / 1000),
+          duration: Math.floor(state.track_window.current_track.duration_ms / 1000),
         });
       });
 
@@ -79,32 +73,51 @@ export default function SimpleWebPlayer({ trackUri }) {
 
   useEffect(() => {
     if (trackUri && player && deviceId) {
+      const body =
+        trackUri.startsWith("spotify:playlist:")
+          ? { context_uri: trackUri } // Queue the entire playlist
+          : { uris: [trackUri] }; // Play a single track
+  
       fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
         method: "PUT",
-        body: JSON.stringify({ uris: [trackUri] }),
+        body: JSON.stringify(body),
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-      }).catch((error) => console.error("Error starting playback:", error));
+      })
+        .then(() => console.log("Playback started"))
+        .catch((error) => console.error("Error starting playback:", error));
     }
   }, [trackUri, player, deviceId, accessToken]);
 
-  useEffect(() => {
-    let interval;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        player.getCurrentState().then((state) => {
-          if (!state) return;
-          setProgress(state.position / 1000); // Convert milliseconds to seconds
-        });
-      }, 1000);
-    } else {
-      clearInterval(interval);
+  const skipToNext = async () => {
+    if (player && deviceId) {
+      fetch(`https://api.spotify.com/v1/me/player/next?device_id=${deviceId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then(() => console.log("Skipped to next track"))
+        .catch((error) => console.error("Error skipping to next track:", error));
     }
+  };
 
-    return () => clearInterval(interval);
-  }, [isPlaying, player]);
+  const skipToPrevious = async () => {
+    if (player && deviceId) {
+      fetch(`https://api.spotify.com/v1/me/player/previous?device_id=${deviceId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then(() => console.log("Skipped to previous track"))
+        .catch((error) => console.error("Error skipping to previous track:", error));
+    }
+  };
 
   const togglePlay = () => {
     if (player) {
@@ -133,7 +146,7 @@ export default function SimpleWebPlayer({ trackUri }) {
 
       {/* Controls */}
       <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
-        <IconButton onClick={() => player.previousTrack()}>
+        <IconButton onClick={skipToPrevious}>
           <SkipPreviousIcon sx={{ color: "#fff" }} />
         </IconButton>
         <IconButton onClick={togglePlay}>
@@ -143,14 +156,16 @@ export default function SimpleWebPlayer({ trackUri }) {
             <PlayArrowIcon sx={{ color: "#fff" }} />
           )}
         </IconButton>
-        <IconButton onClick={() => player.nextTrack()}>
+        <IconButton onClick={skipToNext}>
           <SkipNextIcon sx={{ color: "#fff" }} />
         </IconButton>
       </Box>
 
       {/* Progress Bar */}
       <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 2, width: "80%" }}>
-        <Typography variant="body2">{Math.floor(progress / 60)}:{(progress % 60).toFixed(0).padStart(2, "0")}</Typography>
+        <Typography variant="body2">
+          {Math.floor(progress / 60)}:{(progress % 60).toFixed(0).padStart(2, "0")}
+        </Typography>
         <Slider
           value={progress}
           min={0}
@@ -160,7 +175,10 @@ export default function SimpleWebPlayer({ trackUri }) {
             if (player) player.seek(value * 1000);
           }}
         />
-        <Typography variant="body2">{Math.floor(trackDetails.duration / 60)}:{(trackDetails.duration % 60).toString().padStart(2, "0")}</Typography>
+        <Typography variant="body2">
+          {Math.floor(trackDetails.duration / 60)}:
+          {(trackDetails.duration % 60).toString().padStart(2, "0")}
+        </Typography>
       </Stack>
     </Box>
   );

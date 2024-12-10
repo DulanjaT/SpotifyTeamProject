@@ -1,6 +1,6 @@
 import { useState } from "react";
 import requestWrapper from "../../spotify/requestWrapper";
-import CreatePlaylistDemo from "../CreatePlaylistDemo/CreatePlaylistDemo";
+import CreatePlaylistDemo from "./CreatePlaylistDemo";
 
 export default function Demo()
 {

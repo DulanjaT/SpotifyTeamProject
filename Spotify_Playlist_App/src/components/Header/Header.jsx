@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router"; // Updated import for React Router DOM
+import { Link } from "react-router"; 
 import { AppBar, Toolbar, Button, Typography, Box } from "@mui/material";
 import UserInfo from "../UserInfo/UserInfo";
 
@@ -25,10 +25,10 @@ export default function Header() {
           <Button component={Link} to="/artist" color="inherit">
             Artist Demo
           </Button>
-          <Button component={Link} to="/player" color="inherit">
-            Player
+          <Button component={Link} to="/search" color="inherit">
+            Search
           </Button>
-          <Button component={Link} to="/playlist" color="inherit">
+          <Button component={Link} to="/playlists" color="inherit">
             All Playlists
           </Button>
         </Box>

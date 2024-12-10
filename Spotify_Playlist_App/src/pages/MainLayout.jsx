@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Grid, Typography, List, ListItem, ListItemButton, ListItemText, Avatar } from "@mui/material";
-import UserInfo from "../UserInfo/UserInfo";
-import UserPlaylists from "../UserPlaylists/UserPlaylists";
+import { Link, useOutletContext } from "react-router";
+import UserInfo from "../components/UserInfo/UserInfo";
+import UserPlaylists from "../components/UserPlaylists/UserPlaylists";
 import { Outlet } from "react-router";
-import SongSearch from "../SongSearch/SongSearch";
+import SongSearch from "../components/SongSearch/SongSearch";
+
 
 export default function MainLayout() {
+  const [currentTrackUri, setCurrentTrackUri] = useState(null);
+
+  // Function to update the song URI dynamically
+  const handleSongSelection = (trackUri) => {
+    setCurrentTrackUri(trackUri);
+  };
+
   return (
     <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
       {/* Main Grid */}
@@ -27,17 +36,20 @@ export default function MainLayout() {
           </Typography>
           <List>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton component={Link} to="/app">
+                {/* Link to Home */}
                 <ListItemText primary="Home" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary="Search" />
+              <ListItemButton component={Link} to="/search">
+                {/* Link to SongSearch */}
+                <ListItemText primary="search" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton component={Link} to="/playlists">
+                {/* Link to UserPlaylists */}
                 <ListItemText primary="Library" />
               </ListItemButton>
             </ListItem>
@@ -55,7 +67,7 @@ export default function MainLayout() {
             overflowY: "auto",
           }}
           >
-            <SongSearch/>
+            <Outlet />
         </Grid>
 
         {/* User Info Section */}
@@ -71,7 +83,11 @@ export default function MainLayout() {
             alignItems: "flex-end",
           }}
         >
-          
+          	<Outlet context={{ onSelectTrack: handleSongSelection }} />
+              {/* Simple Web Player */}
+      {currentTrackUri && (
+        <SimpleWebPlayer trackUri={currentTrackUri} />
+      )}
         </Grid>
       </Grid>
     </Box>
