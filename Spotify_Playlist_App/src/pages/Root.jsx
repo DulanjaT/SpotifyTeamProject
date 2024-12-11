@@ -14,7 +14,7 @@ export default function Root() {
   return (
     <div>
       {/* Header Component */}
-      <Header />
+      {/* <Header /> */}
 
       {/* Main Content */}
       <div style={{ marginBottom: "100px" }}>
@@ -23,9 +23,9 @@ export default function Root() {
       </div>
 
       {/* Simple Web Player */}
-      {currentTrackUri && (
+     {/*  {currentTrackUri && (
         <SimpleWebPlayer trackUri={currentTrackUri} />
-      )}
+      )} */}
     </div>
   );
 }

@@ -127,15 +127,16 @@ export default function SimpleWebPlayer({ trackUri }) {
 
   return (
     <Box
-      sx={{
-        bgcolor: "#121212",
-        color: "#fff",
-        p: 3,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "space-between",
+      width: "100%",
+      height: "100%",
+      padding: "10px",
+    }}
+  >
       {/* Track Info */}
       <Typography variant="h6" gutterBottom>
         {trackDetails.trackName}
@@ -145,7 +146,15 @@ export default function SimpleWebPlayer({ trackUri }) {
       </Typography>
 
       {/* Controls */}
-      <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "50px",
+          width: "100%"
+          ,height: "100%"
+        }}>
         <IconButton onClick={skipToPrevious}>
           <SkipPreviousIcon sx={{ color: "#fff" }} />
         </IconButton>
@@ -161,7 +170,7 @@ export default function SimpleWebPlayer({ trackUri }) {
         </IconButton>
       </Box>
 
-      {/* Progress Bar */}
+      {/* Progres Bar */}
       <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 2, width: "80%" }}>
         <Typography variant="body2">
           {Math.floor(progress / 60)}:{(progress % 60).toFixed(0).padStart(2, "0")}
@@ -170,7 +179,10 @@ export default function SimpleWebPlayer({ trackUri }) {
           value={progress}
           min={0}
           max={trackDetails.duration || 100}
-          sx={{ color: "#1db954" }}
+          sx={{ color: "#1db954",
+            width: "80%",
+            marginTop: "10px",
+            height: "4px",}}
           onChange={(_, value) => {
             if (player) player.seek(value * 1000);
           }}

@@ -19,6 +19,9 @@ import MainLayout from './pages/MainLayout';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './theme/theme';
 import SongSearch from './components/SongSearch/SongSearch';
+import TestMainLayout from './pages/MainLayout';
+import Search from './components/Search/Search';
+import HomePage from './pages/Home';
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
 //https://react.dev/reference/react/useState#caveats
@@ -29,16 +32,15 @@ createRoot(document.getElementById('root')).render(
 	<BrowserRouter>
 	<CssBaseline />
 		<Routes>
-			<Route path="/" element={<Root />}>
+			<Route path="/" element={<TestMainLayout />}>
 				<Route index element={<Authorize />} />
 				<Route path="getToken" element={<GetToken />} />
-				<Route path="app" element={<MainLayout />} />
+				<Route path="app" element={<UserPlaylists />} />{/* This is our Root for now */}
+				<Route path="home" element={<HomePage />} />
 				<Route path="artist" element={<ArtistDemo />} />
-				<Route path="player" element={<Player />} />
 				<Route path="playlists" element={<UserPlaylists />} />
-				<Route path="userInfo" element={<UserInfo />} />
-				<Route path="demo" element={<ArtistDemo />} />
-				<Route path="search" element={<SongSearch />} />
+				<Route path="search" element={<Search />} />
+				
 			
 				
 
