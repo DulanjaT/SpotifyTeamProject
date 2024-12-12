@@ -1,4 +1,4 @@
-import Artist from "../components/ArtistDemo/ArtistDemo";
+import Artist from "../components/Demo/ArtistDemo";
 
 export default function ArtistDemo()
 {

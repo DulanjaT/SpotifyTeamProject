@@ -1,67 +1,216 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Slider,
+  IconButton,
+  Typography,
+  Stack,
+} from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import requestWrapper from "../../spotify/requestWrapper";
 
-const base_track = {
-    name: "",
-    album: {
-        images: [ { url: "" } ]
-    },
-    artists: [ { name: "" } ]
-};
+export default function WebPlayer({ trackUri }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [volume, setVolume] = useState(50);
+  const [trackDetails, setTrackDetails] = useState({
+    trackName: "Loading...",
+    artistName: "Loading...",
+    duration: 0,
+  });
+  useEffect(() => {
+	const script = document.createElement("script");
+	script.src = "https://sdk.scdn.co/spotify-player.js";
+	script.async = true;
+	document.body.appendChild(script);
+  
+	window.onSpotifyWebPlaybackSDKReady = () => {
+	  const player = new window.Spotify.Player({
+		name: "Web Player",
+		getOAuthToken: (cb) => cb(window.localStorage.getItem("accessToken")),
+	  });
+  
+	  player.addListener("ready", ({ device_id }) => {
+		console.log("Device ID:", device_id);
+		window.localStorage.setItem("spotifyDeviceId", device_id);
+	  });
+  
+	  player.connect();
+	};
+  }, []);
 
-export default function WebPlayback()
-{
-	const [player, setPlayer] = useState(null);
-	const [paused, setPaused] = useState(null);
-	const [active, setActive] = useState(null);
-	const [track, setTrack] = useState(base_track);
-	
-	useEffect(() => {
-		const script = document.createElement("script");
-		script.src = "https://sdk.scdn.co/spotify-player.js";
-		script.async = true;
-		document.body.appendChild(script);
+  useEffect(() => {
+    if (trackUri) {
+      // Fetch track details when trackUri changes
+      requestWrapper(
+        `tracks/${trackUri.split(":").pop()}`,
+        null,
+        (data) => {
+          setTrackDetails({
+            trackName: data.name,
+            artistName: data.artists.map((artist) => artist.name).join(", "),
+            duration: Math.floor(data.duration_ms / 1000), // Convert ms to seconds
+          });
+          playTrack(trackUri); // Start playing the track
+        },
+        (error) => {
+          console.error("Error fetching track details:", error);
+        }
+      );
+    }
+  }, [trackUri]);
 
-		window.onSpotifyWebPlaybackSDKReady = () => {
-			const player = new window.Spotify.Player({
-				name: "Test Name",
-				getOAuthToken: cb => { cb(window.localStorage.getItem("accessToken")); },
-				volume: 0.5
-			});
-			setPlayer(player);
-	
-			player.addListener("ready", ({ device_id }) => {
-				console.log(`Ready with id ${device_id}`);
-			});
-	
-			player.addListener("not_ready", ({ device_id }) => {
-				console.log(`Unready with id ${device_id}`);
-			});
+  const playTrack = async (uri) => {
+    await requestWrapper(
+      "me/player/play",
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uris: [uri] }),
+      },
+      () => {
+        setIsPlaying(true);
+      },
+      (error) => {
+        console.error("Error playing track:", error);
+      }
+    );
+  };
 
-			player.addListener('player_state_changed', (state => {
-				if (!state)
-					return;
+  const togglePlay = async () => {
+	const deviceId = window.localStorage.getItem("spotifyDeviceId");
+	if (!deviceId) {
+	  console.error("No device ID available");
+	  return;
+	}
+  
+	const endpoint = isPlaying ? `me/player/pause?device_id=${deviceId}` : `me/player/play?device_id=${deviceId}`;
+	await requestWrapper(
+	  endpoint,
+	  { method: "PUT" },
+	  () => {
+		setIsPlaying(!isPlaying);
+		console.log(isPlaying ? "Paused" : "Playing");
+	  },
+	  (error) => {
+		console.error("Error toggling play state:", error);
+	  }
+	);
+  };
 
-				setTrack(state.track_window.current_track);
-				setPaused(state.paused);
+  const handleProgressChange = async (event, newValue) => {
+    await requestWrapper(
+      "me/player/seek",
+      { method: "PUT", body: JSON.stringify({ position_ms: newValue * 1000 }) },
+      () => {
+        setProgress(newValue);
+      },
+      (error) => {
+        console.error("Error seeking track:", error);
+      }
+    );
+  };
 
-				player.getCurrentState().then(state => { (!state) ? setActive(false) : setActive(true) });
-			}));
-	
-			player.connect();
-		}
-	}, []);
+  const handleVolumeChange = async (event, newValue) => {
+    await requestWrapper(
+      "me/player/volume",
+      { method: "PUT", body: JSON.stringify({ volume_percent: newValue }) },
+      () => {
+        setVolume(newValue);
+      },
+      (error) => {
+        console.error("Error changing volume:", error);
+      }
+    );
+  };
 
-	return (
-		<div className="main-wrapper">
-			<img src={track.album.images[0].url} className="now-playing__cover" alt="" />
-			<div className="now-playing__side">
-				<div className="now-playing__name">{track.name}</div>
-				<div className="now-playing__artist">{track.artists[0].name}</div>
-			</div>
-			<button className="btn-spotify" onClick={() => { player.previousTrack() }}>&lt;&lt;</button>
-			<button className="btn-spotify" onClick={() => { player.togglePlay() }}>{ paused ? "PLAY" : "PAUSE" }</button>
-			<button className="btn-spotify" onClick={() => { player.nextTrack() }}>&gt;&gt;</button>
-		</div>
-	);	
+  return (
+    <Box
+      sx={{
+        p: 2,
+        bgcolor: "#121212",
+        color: "#fff",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {/* Track Info */}
+      <Typography variant="h6" gutterBottom>
+        {trackDetails.trackName}
+      </Typography>
+      <Typography variant="body2" color="textSecondary" gutterBottom>
+        {trackDetails.artistName}
+      </Typography>
+
+      {/* Controls and Progress */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          justifyContent: "center",
+          mt: 2,
+        }}
+      >
+        <IconButton onClick={() => console.log("Previous track")}>
+          <SkipPreviousIcon sx={{ color: "#fff" }} />
+        </IconButton>
+        <IconButton onClick={togglePlay}>
+          {isPlaying ? (
+            <PauseIcon sx={{ color: "#fff" }} />
+          ) : (
+            <PlayArrowIcon sx={{ color: "#fff" }} />
+          )}
+        </IconButton>
+        <IconButton onClick={() => console.log("Next track")}>
+          <SkipNextIcon sx={{ color: "#fff" }} />
+        </IconButton>
+      </Box>
+
+      {/* Seek Bar */}
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        sx={{ width: "80%", mt: 2 }}
+      >
+        <Typography variant="body2" color="textSecondary">
+          {Math.floor(progress / 60)}:{Math.floor(progress % 60).toString().padStart(2, "0")}
+        </Typography>
+        <Slider
+          value={progress}
+          onChange={handleProgressChange}
+          min={0}
+          max={trackDetails.duration}
+          sx={{ color: "#1db954" }}
+        />
+        <Typography variant="body2" color="textSecondary">
+          {Math.floor(trackDetails.duration / 60)}:{(trackDetails.duration % 60).toString().padStart(2, "0")}
+        </Typography>
+      </Stack>
+
+      {/* Volume Control */}
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        sx={{ width: "50%", mt: 2 }}
+      >
+        <VolumeUpIcon sx={{ color: "#fff" }} />
+        <Slider
+          value={volume}
+          onChange={handleVolumeChange}
+          min={0}
+          max={100}
+          sx={{ color: "#1db954" }}
+        />
+      </Stack>
+    </Box>
+  );
 }

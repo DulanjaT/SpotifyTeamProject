@@ -1,48 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import requestWrapper from "../../spotify/requestWrapper";
-import "./ArtistDemo.css"
+import "./ArtistDemo.css";
 
 export default function Artist() {
-	const [data, setData] = useState(null);
-	const [error, setError] = useState(null);
-console.log(data)
-console.log(data.name,"name")
-console.log(data.genres,"genres")
-	if (data) {
-		return (
-			<div className="card">
-				<h1>{data.name}</h1>
-				<img
-					src={data.images[0].url}
-					alt={`${data.name} image`}
-					width={data.images[0].width}
-					height={data.images[0].height}
-				/>
-				<p>
-					<span className="label">Genres:</span>
-					<span className="description">{data.genres.join(", ")}</span>
-				</p>
-				<p><span className="label">Popularity:</span>
-					<span className="description">{data.popularity}</span>
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-				</p>
-				<a href={data.external_urls.spotify} target="_blank" rel="noopener noreferrer">
-					View on Spotify
-				</a>
-			</div>
-		);
-	} else if (error) {
-		return (
-			<h1>
-				Error {error.status}
-				{error.message ? ": " + error.message : null}
-			</h1>
-		);
-	}
+  useEffect(() => {
+    // Fetch artist data
+    requestWrapper("artists/0TnOYISbd1XYRBk9myaseg", null, setData, setError);
+  }, []); // Empty dependency array ensures the effect runs only once
 
-	requestWrapper("artists/0TnOYISbd1XYRBk9myaseg", null, setData, setError);
+  if (error) {
+    return (
+      <h1>
+        Error {error.status}
+        {error.message ? ": " + error.message : null}
+      </h1>
+    );
+  }
 
-	return <h1>Loading profile information</h1>;
+  if (!data) {
+    return <h1>Loading profile information...</h1>;
+  }
+
+  return (
+    <div className="card">
+      <h1>{data.name}</h1>
+      <img
+        src={data.images?.[0]?.url || ""}
+        alt={`${data.name} image`}
+        width={data.images?.[0]?.width || 0}
+        height={data.images?.[0]?.height || 0}
+      />
+      <p>
+        <span className="label">Genres:</span>
+        <span className="description">
+          {data.genres?.join(", ") || "No genres available"}
+        </span>
+      </p>
+      <p>
+        <span className="label">Popularity:</span>
+        <span className="description">{data.popularity || "N/A"}</span>
+      </p>
+      <a href={data.external_urls?.spotify} target="_blank" rel="noopener noreferrer">
+        View on Spotify
+      </a>
+    </div>
+  );
 }
 /*
 I used Postman to make the API call with a token you can get from the console with this command:
