@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, Avatar } from "@mui/material";
+import { Box, Typography, Avatar, Button } from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
 
 export default function UserInfo() {
@@ -12,7 +12,11 @@ export default function UserInfo() {
   }, []);
 
   if (error) {
-    return <Typography color="error">Failed to fetch user info: {error.message}</Typography>;
+    return (
+      <Typography color="error">
+        Failed to fetch user info: {error.message}
+      </Typography>
+    );
   }
 
   if (!userInfo) {
@@ -24,10 +28,10 @@ export default function UserInfo() {
       <Avatar
         src={userInfo.images?.[0]?.url || ""}
         alt={userInfo.display_name || "User Avatar"}
-        sx={{ width: 56, height: 56 }}
+        sx={{ width: 40, height: 40 }}
       />
-     <Typography sx={{ ml: 1, fontSize: "0.875rem", color: "white" }}>
-        {userInfo.display_name}!
+      <Typography sx={{ ml: 1, fontSize: "0.875rem", color: "white" }}>
+        {userInfo.display_name}
       </Typography>
     </Box>
   );
