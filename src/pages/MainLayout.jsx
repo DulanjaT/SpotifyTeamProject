@@ -26,7 +26,7 @@ export default function TestMainLayout() {
           "player player player"
         `,
                 height: "100vh",
-                overflow: "hidden",
+                overflow: "auto",
                 bgcolor: "#121212",
                 color: "#fff",
             }}

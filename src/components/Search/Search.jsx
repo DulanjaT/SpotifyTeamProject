@@ -73,7 +73,7 @@ export default function Search() {
         color: "#fff",
         padding: 2,
         height: "100vh",
-        overflowY: "auto",
+       
       }}
     >
       {/* Search Input */}
