@@ -73,11 +73,11 @@ export default function SimpleWebPlayer({ trackUri }) {
 
   useEffect(() => {
     if (trackUri && player && deviceId) {
-      const body =
-        trackUri.startsWith("spotify:playlist:")
-          ? { context_uri: trackUri } // Queue the entire playlist
-          : { uris: [trackUri] }; // Play a single track
-  
+      const isPlaylist = trackUri.startsWith("spotify:playlist:");
+      const body = isPlaylist
+        ? { context_uri: trackUri }
+        : { uris: [trackUri] };
+
       fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
         method: "PUT",
         body: JSON.stringify(body),
@@ -86,7 +86,9 @@ export default function SimpleWebPlayer({ trackUri }) {
           "Content-Type": "application/json",
         },
       })
-        .then(() => console.log("Playback started"))
+        .then(() =>
+          console.log(isPlaylist ? "Playlist playback started" : "Track playback started")
+        )
         .catch((error) => console.error("Error starting playback:", error));
     }
   }, [trackUri, player, deviceId, accessToken]);
