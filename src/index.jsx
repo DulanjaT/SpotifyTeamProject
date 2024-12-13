@@ -1,24 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router';
-
 import Root from "./pages/Root";
 import Authorize from "./pages/login/Authorize";
 import GetToken from "./pages/login/GetToken";
 import App from "./pages/App";
 import ArtistDemo from './pages/ArtistDemo';
-import WebPlayback from './components/WebPlayback/WebPlayback';
-import Player from './pages/Player';
 import UserPlaylists from './components/UserPlaylists/UserPlaylists';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import UserInfo from './components/UserInfo/UserInfo';
-import MainLayout from './pages/MainLayout';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from './theme/theme';
-import SongSearch from './components/SongSearch/SongSearch';
+import theme from './theme/theme';;
 import TestMainLayout from './pages/MainLayout';
 import Search from './components/Search/Search';
 import HomePage from './pages/Home';
