@@ -16,6 +16,7 @@ import theme from './theme/theme';;
 import TestMainLayout from './pages/MainLayout';
 import Search from './components/Search/Search';
 import HomePage from './pages/Home';
+import Home from './pages/Home';
 
 //Temporarily disabled strict mode because current configuration will duplicate token requests, need to determine if this is a design issue on my part
 //https://react.dev/reference/react/useState#caveats
@@ -34,6 +35,7 @@ createRoot(document.getElementById('root')).render(
 				<Route path="artist" element={<ArtistDemo />} />
 				<Route path="playlists" element={<UserPlaylists />} />
 				<Route path="search" element={<Search />} />
+				<Route path="home" element={<Home />} />
 				
 			
 				
