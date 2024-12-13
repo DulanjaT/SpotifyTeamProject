@@ -1,11 +1,11 @@
 
-
+import Demo from "../components/Demo/Demo";
 const HomePage = () => {
   return (
     <div>
-      <h1>HomePage Placeholder</h1>
-    </div>
+			<Demo />
+		</div>
   );
-};
+}
 
 export default HomePage;
