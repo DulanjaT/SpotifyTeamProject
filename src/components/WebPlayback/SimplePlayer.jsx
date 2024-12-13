@@ -11,12 +11,14 @@ export default function SimpleWebPlayer({ trackUri }) {
   const [deviceId, setDeviceId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [currentUri, setCurrentUri] = useState(null); // Holds both trackUri and playlistUri
   const [trackDetails, setTrackDetails] = useState({
     trackName: "Loading...",
     artistName: "Loading...",
     duration: 0,
   });
 
+  // Initialize Spotify Web Playback SDK
   useEffect(() => {
     const token = window.localStorage.getItem("accessToken");
     if (!token) {
@@ -52,7 +54,9 @@ export default function SimpleWebPlayer({ trackUri }) {
           artistName: state.track_window.current_track.artists
             .map((artist) => artist.name)
             .join(", "),
-          duration: Math.floor(state.track_window.current_track.duration_ms / 1000),
+          duration: Math.floor(
+            state.track_window.current_track.duration_ms / 1000
+          ),
         });
       });
 
@@ -71,13 +75,13 @@ export default function SimpleWebPlayer({ trackUri }) {
     };
   }, []);
 
+  // Handle Playback for Both Playlist and Single Track
   useEffect(() => {
-    if (trackUri && player && deviceId) {
-      const body =
-        trackUri.startsWith("spotify:playlist:")
-          ? { context_uri: trackUri } // Queue the entire playlist
-          : { uris: [trackUri] }; // Play a single track
-  
+    if (currentUri && player && deviceId) {
+      const body = currentUri.startsWith("spotify:playlist:")
+        ? { context_uri: currentUri } // For playlist playback
+        : { uris: [currentUri] }; // For single track playback
+
       fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
         method: "PUT",
         body: JSON.stringify(body),
@@ -86,10 +90,32 @@ export default function SimpleWebPlayer({ trackUri }) {
           "Content-Type": "application/json",
         },
       })
-        .then(() => console.log("Playback started"))
+        .then(() => console.log("Playback started for URI:", currentUri))
         .catch((error) => console.error("Error starting playback:", error));
     }
-  }, [trackUri, player, deviceId, accessToken]);
+  }, [currentUri, player, deviceId, accessToken]);
+
+  // Listen for Custom "playPlaylist" Event
+  useEffect(() => {
+    const handlePlayPlaylist = (event) => {
+      const { playlistUri } = event.detail;
+      console.log("Received playlist URI in SimpleWebPlayer:", playlistUri);
+      setCurrentUri(playlistUri); // Set the current URI to the playlist URI
+    };
+
+    window.addEventListener("playPlaylist", handlePlayPlaylist);
+
+    return () => {
+      window.removeEventListener("playPlaylist", handlePlayPlaylist);
+    };
+  }, []);
+
+  // Update Current URI for Single Track Playback
+  useEffect(() => {
+    if (trackUri) {
+      setCurrentUri(trackUri);
+    }
+  }, [trackUri]);
 
   const skipToNext = async () => {
     if (player && deviceId) {
@@ -101,21 +127,28 @@ export default function SimpleWebPlayer({ trackUri }) {
         },
       })
         .then(() => console.log("Skipped to next track"))
-        .catch((error) => console.error("Error skipping to next track:", error));
+        .catch((error) =>
+          console.error("Error skipping to next track:", error)
+        );
     }
   };
 
   const skipToPrevious = async () => {
     if (player && deviceId) {
-      fetch(`https://api.spotify.com/v1/me/player/previous?device_id=${deviceId}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        `https://api.spotify.com/v1/me/player/previous?device_id=${deviceId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then(() => console.log("Skipped to previous track"))
-        .catch((error) => console.error("Error skipping to previous track:", error));
+        .catch((error) =>
+          console.error("Error skipping to previous track:", error)
+        );
     }
   };
 
@@ -127,16 +160,16 @@ export default function SimpleWebPlayer({ trackUri }) {
 
   return (
     <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "space-between",
-      width: "100%",
-      height: "100%",
-      padding: "10px",
-    }}
-  >
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+        height: "100%",
+        padding: "10px",
+      }}
+    >
       {/* Track Info */}
       <Typography variant="h6" gutterBottom>
         {trackDetails.trackName}
@@ -152,9 +185,10 @@ export default function SimpleWebPlayer({ trackUri }) {
           alignItems: "center",
           justifyContent: "center",
           gap: "50px",
-          width: "100%"
-          ,height: "100%"
-        }}>
+          width: "100%",
+          height: "100%",
+        }}
+      >
         <IconButton onClick={skipToPrevious}>
           <SkipPreviousIcon sx={{ color: "#fff" }} />
         </IconButton>
@@ -170,19 +204,27 @@ export default function SimpleWebPlayer({ trackUri }) {
         </IconButton>
       </Box>
 
-      {/* Progres Bar */}
-      <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 2, width: "80%" }}>
+      {/* Progress Bar */}
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        sx={{ mt: 2, width: "80%" }}
+      >
         <Typography variant="body2">
-          {Math.floor(progress / 60)}:{(progress % 60).toFixed(0).padStart(2, "0")}
+          {Math.floor(progress / 60)}:
+          {(progress % 60).toFixed(0).padStart(2, "0")}
         </Typography>
         <Slider
           value={progress}
           min={0}
           max={trackDetails.duration || 100}
-          sx={{ color: "#1db954",
+          sx={{
+            color: "#1db954",
             width: "80%",
             marginTop: "10px",
-            height: "4px",}}
+            height: "4px",
+          }}
           onChange={(_, value) => {
             if (player) player.seek(value * 1000);
           }}
