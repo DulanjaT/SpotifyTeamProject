@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { List, ListItem, ListItemButton, ListItemText, Box, Typography } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Box,
+  Typography,
+} from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
 import PlaylistTracks from "../PlaylistTracks/PlaylistTracks";
 import fallbackImage from "../../assets/musicIcon.jpg";
@@ -27,7 +34,8 @@ export default function UserPlaylists() {
   if (selectedPlaylist) {
     return (
       <PlaylistTracks
-        playlistId={selectedPlaylist}
+        playlistId={selectedPlaylist.id} // Pass only the ID
+        playlistName={selectedPlaylist.name} // Pass the name
         onBack={() => setSelectedPlaylist(null)}
       />
     );
@@ -39,22 +47,26 @@ export default function UserPlaylists() {
         Your Playlists
       </Typography>
       <List>
-  {playlists.items.map((playlist) => {
-    if (!playlist || !playlist.name) return null; // Skip invalid playlists
-    const imageSrc = playlist.images?.[0]?.url || fallbackImage; // Use playlist image or fallback image
-    return (
-      <ListItem key={playlist.id} disablePadding>
-        <ListItemButton onClick={() => setSelectedPlaylist(playlist.id)}>
-          <ListItemText
-          primary={playlist.name}
-          secondary={`Tracks: ${playlist.tracks.total}`}
-          />
-        </ListItemButton>
-        <img src={imageSrc} alt={playlist.name} width="50" />
-      </ListItem>
-    );
-  })}
-</List>
+        {playlists.items.map((playlist) => {
+          if (!playlist || !playlist.name) return null; // Skip invalid playlists
+          const imageSrc = playlist.images?.[0]?.url || fallbackImage; // Use playlist image or fallback image
+          return (
+            <ListItem key={playlist.id} disablePadding>
+              <ListItemButton
+                onClick={() =>
+                  setSelectedPlaylist({ id: playlist.id, name: playlist.name })
+                }
+              >
+                <ListItemText
+                  primary={playlist.name}
+                  secondary={`Tracks: ${playlist.tracks.total}`}
+                />
+              </ListItemButton>
+              <img src={imageSrc} alt={playlist.name} width="50" />
+            </ListItem>
+          );
+        })}
+      </List>
     </Box>
   );
 }
