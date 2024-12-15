@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Box, TextField, Button, List, ListItem, ListItemText, Typography, Grid } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Grid,
+} from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
 import addToQueue from "../../utilities/addToQueue";
 import addToPlaylist from "../../utilities/addToPlaylist";
 import TinyButton from "../Button.jsx/Button";
-import AddSharpIcon from '@mui/icons-material/AddSharp';
+import AddSharpIcon from "@mui/icons-material/AddSharp";
 import TrackOptionsMenu from "../TrackOptionsMenu/TrackOptionsMenu";
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,8 +25,6 @@ export default function Search() {
     fetchSearchResults();
   }, [searchTerm]); // Dependency array ensures this runs when searchTerm changes
 
-
-
   const handleAddToQueue = () => {
     console.log("Add to Queue clicked");
   };
@@ -25,8 +32,6 @@ export default function Search() {
   const handleRemove = () => {
     console.log("Remove from Playlist clicked");
   };
-
-
 
   const fetchSearchResults = async () => {
     try {
@@ -43,7 +48,9 @@ export default function Search() {
   const handleAddToPlaylist = async (trackUri) => {
     const playlistId = localStorage.getItem("playlistId"); // Retrieve playlist ID from localStorage
     if (!playlistId) {
-      alert("No playlist is currently selected. Please create or select a playlist.");
+      alert(
+        "No playlist is currently selected. Please create or select a playlist."
+      );
       return;
     }
     try {
@@ -55,7 +62,6 @@ export default function Search() {
     }
   };
 
-
   if (error) {
     return (
       <Typography variant="h6" color="error">
@@ -65,7 +71,7 @@ export default function Search() {
   }
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
-  }
+  };
   return (
     <Box
       sx={{
@@ -117,7 +123,12 @@ export default function Search() {
           {results.tracks?.items.map((track, index) => (
             <ListItem
               key={track.id}
-              sx={{ display: "flex", alignItems: "center", borderBottom: "1px solid #333", padding: 1 }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                borderBottom: "1px solid #333",
+                padding: 1,
+              }}
             >
               {/* Song Information */}
               <Grid container alignItems="center">
@@ -135,7 +146,11 @@ export default function Search() {
                     <img
                       src={track.album.images[0].url}
                       alt={track.name}
-                      style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                      }}
                     />
                   )}
                 </Grid>
@@ -150,17 +165,15 @@ export default function Search() {
                   </Button> */}
                   <TrackOptionsMenu
                     onAddToPlaylist={() => handleAddToPlaylist(track.uri)}
-                    onAddToQueue={() => handleAddToQueue(track.uri)} 
-                    />
+                    onAddToQueue={() => handleAddToQueue(track.uri)}
+                  />
                   <TinyButton
                     icon={<AddSharpIcon />} // Replace with your desired icon
                     tooltip="Add to Playlist"
                     onClick={() => handleAddToPlaylist(track.uri)}
                   />
-
                 </Grid>
-                <Grid item xs={2} sx={{ textAlign: "right" }}>
-                </Grid>
+                <Grid item xs={2} sx={{ textAlign: "right" }}></Grid>
               </Grid>
             </ListItem>
           ))}
