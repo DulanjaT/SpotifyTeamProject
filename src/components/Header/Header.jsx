@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { AppBar, Toolbar, Button, Typography, Box } from "@mui/material";
 import UserInfo from "../UserInfo/UserInfo";
+import { logout } from "../../utilities/logout"; // Adjust the relative path
 
 export default function Header() {
   return (
@@ -23,7 +24,9 @@ export default function Header() {
           {/* <Button component={Link} to="/artist" color="inherit">
             Artist Demo(To be removed)
           </Button> */}
-          <Button variant="outlined">Logout</Button>
+          <Button variant="outlined" onClick={logout}>
+            Logout
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>
