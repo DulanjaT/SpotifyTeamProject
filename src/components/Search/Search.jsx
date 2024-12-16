@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useOutletContext } from "react-router";
 import {
   Box,
   TextField,
@@ -19,14 +20,16 @@ export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
-
+const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletContext
   useEffect(() => {
     if (!searchTerm.trim()) return;
     fetchSearchResults();
   }, [searchTerm]); // Dependency array ensures this runs when searchTerm changes
 
-  const handleAddToQueue = () => {
-    console.log("Add to Queue clicked");
+  const handleAddToQueue = (trackUri) => {
+    console.log("Adding to queue:", trackUri);
+    // Call Spotify API to add to queue
+    addToQueue(trackUri);
   };
 
   const handleRemove = () => {
@@ -129,6 +132,7 @@ export default function Search() {
                 borderBottom: "1px solid #333",
                 padding: 1,
               }}
+              onClick={() => onSelectTrack(track.uri)}
             >
               {/* Song Information */}
               <Grid container alignItems="center">
