@@ -13,8 +13,8 @@ export default function SimpleWebPlayer({ trackUri }) {
   const [progress, setProgress] = useState(0);
   const [currentUri, setCurrentUri] = useState(null); // Holds both trackUri and playlistUri
   const [trackDetails, setTrackDetails] = useState({
-    trackName: "Loading...",
-    artistName: "Loading...",
+    trackName: "",
+    artistName: "",
     duration: 0,
   });
 
