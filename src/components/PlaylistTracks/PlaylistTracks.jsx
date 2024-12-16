@@ -10,11 +10,17 @@ import {
 } from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
 import { useOutletContext } from "react-router";
-import TinyButton from "../Button.jsx/Button";
+
 import AddIcon from "@mui/icons-material/Add";
 import addToQueue from "../../utilities/addToQueue";
-
-export default function PlaylistTracks({ playlistId, playlistName, onBack }) {
+import TinyButton from "../Button.jsx/Button";
+export default function PlaylistTracks({
+  playlistId,
+  playlistName,
+  onBack,
+  likedTracks = null,
+  isLikedSongs = false,
+}) {
   const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletContext
   const [tracks, setTracks] = useState(null);
   const [error, setError] = useState(null);
@@ -22,19 +28,28 @@ export default function PlaylistTracks({ playlistId, playlistName, onBack }) {
   // State to store the current track/playlist URI
   const [trackUri, setTrackUri] = useState(null); // Added for playlist playback
   useEffect(() => {
-    console.log("useEffect triggered with playlistId:", playlistId); // Should now be a string
-    requestWrapper(
-      `playlists/${playlistId}/tracks`,
-      null,
-      (data) => {
-        console.log("Fetched tracks:", data);
-        setTracks(data);
-      },
-      (err) => {
-        console.error("Error fetching tracks:", err);
-        setError(err);
+    if (!isLikedSongs) {
+      console.log("useEffect triggered with playlistId:", playlistId); // Should now be a string
+      requestWrapper(
+        `playlists/${playlistId}/tracks`,
+        null,
+        (data) => {
+          console.log("Fetched tracks:", data);
+          setTracks(data);
+        },
+        (err) => {
+          console.error("Error fetching tracks:", err);
+          setError(err);
+        }
+      );
+    } else {
+      console.log("useEffect triggered with liked songs");
+      if (likedTracks != null) {
+        setTracks(likedTracks);
+      } else {
+        setError(new Error("couldn't retrieve saved tracks"));
       }
-    );
+    }
   }, [playlistId]);
 
   // console.log("Tracks state:", tracks);
@@ -79,6 +94,16 @@ export default function PlaylistTracks({ playlistId, playlistName, onBack }) {
     );
   };
 
+  const getBackButton = () => {
+    if (!isLikedSongs) {
+      return (
+        <Button variant="outlined" onClick={onBack} sx={{ mb: 2 }}>
+          Back to Playlists
+        </Button>
+      );
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -90,9 +115,8 @@ export default function PlaylistTracks({ playlistId, playlistName, onBack }) {
       }}
     >
       {/* Back Button */}
-      <Button variant="outlined" onClick={onBack} sx={{ mb: 2 }}>
-        Back to Playlists
-      </Button>
+
+      {getBackButton()}
       {/* Playlist Tracks Header */}
       <Typography variant="subtitle1">Playlist</Typography>
       <Typography variant="h5" gutterBottom>
