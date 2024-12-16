@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-
 import PlaylistTracks from "../PlaylistTracks/PlaylistTracks";
 import requestWrapper from "../../spotify/requestWrapper";
 import { Typography } from "@mui/material";
 
 export default function MyPlaylist() {
-  const [tracks, setTracks] = useState(null);
+  const [tracks, setTracks] = useState({ items: [] }); // Initialize with { items: [] }
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    requestWrapper("me/tracks", null, setTracks, setError);
+    requestWrapper(
+      "me/tracks",
+      null,
+      (data) => {
+        setTracks({ items: data.items || [] }); // Ensure items key exists
+      },
+      setError
+    );
   }, []);
 
   if (error) {
@@ -20,10 +26,10 @@ export default function MyPlaylist() {
     );
   }
 
-  if (tracks !== null) {
+  if (tracks.items.length > 0) {
     return (
       <PlaylistTracks
-        likedTracks={tracks}
+        likedTracks={tracks.items}
         isLikedSongs={true}
         playlistName={"Liked Songs"}
       />

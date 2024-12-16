@@ -7,13 +7,15 @@ import {
   Typography,
   Button,
   Grid,
+  Pagination,
 } from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
 import { useOutletContext } from "react-router";
-
 import AddIcon from "@mui/icons-material/Add";
 import addToQueue from "../../utilities/addToQueue";
 import TinyButton from "../Button.jsx/Button";
+
+
 export default function PlaylistTracks({
   playlistId,
   playlistName,
@@ -22,20 +24,28 @@ export default function PlaylistTracks({
   isLikedSongs = false,
 }) {
   const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletContext
-  const [tracks, setTracks] = useState(null);
+  const [tracks, setTracks] = useState({ items: [] });
   const [error, setError] = useState(null);
-  // console.log(playlistName); // To check that we get playlist name
+  const [totalTracks, setTotalTracks] = useState(0); // Total number of tracks
+  const [page, setPage] = useState(1); // Current page
+  const limit = 20; // Number of tracks per page
   // State to store the current track/playlist URI
   const [trackUri, setTrackUri] = useState(null); // Added for playlist playback
+  
   useEffect(() => {
     if (!isLikedSongs) {
-      console.log("useEffect triggered with playlistId:", playlistId); // Should now be a string
+      const offset = (page - 1) * limit;
+      console.log("Fetching playlist tracks with pagination...");
       requestWrapper(
-        `playlists/${playlistId}/tracks`,
+        `playlists/${playlistId}/tracks?limit=${limit}&offset=${offset}`,
         null,
         (data) => {
-          console.log("Fetched tracks:", data);
-          setTracks(data);
+          if (data && data.items) {
+            setTracks(data); // Ensure data is valid
+            setTotalTracks(data.total || 0); // Set total tracks
+          } else {
+            setTracks({ items: [] }); // Fallback to empty tracks
+          }
         },
         (err) => {
           console.error("Error fetching tracks:", err);
@@ -43,17 +53,26 @@ export default function PlaylistTracks({
         }
       );
     } else {
-      console.log("useEffect triggered with liked songs");
       if (likedTracks != null) {
-        setTracks(likedTracks);
+        setTracks({ items: likedTracks });
+        setTotalTracks(likedTracks.length);
       } else {
-        setError(new Error("couldn't retrieve saved tracks"));
+        setError(new Error("Couldn't retrieve saved tracks"));
       }
     }
-  }, [playlistId]);
+  }, [playlistId, page]);
 
-  // console.log("Tracks state:", tracks);
-  // console.log("Are we getting tracks: " + tracks); // Check if we get tracks
+/* Handle pahe change */
+  const handlePageChange = (event, value) => {
+    setPage(value); // Update the page state
+  };
+  /* Add song to player queue */
+  const handleAddToQueue = (trackUri) => {
+    console.log("Adding to queue:", trackUri);
+    // Call Spotify API to add to queue
+    addToQueue(trackUri);
+  };
+
 
   if (error) {
     return (
@@ -67,11 +86,7 @@ export default function PlaylistTracks({
     return <Typography>Loading tracks...</Typography>;
   }
 
-  const handleAddToQueue = (trackUri) => {
-    console.log("Adding to queue:", trackUri);
-    // Call Spotify API to add to queue
-    addToQueue(trackUri);
-  };
+  
 
   // Playlist tracks play function
 
@@ -111,7 +126,7 @@ export default function PlaylistTracks({
         color: "#fff",
         padding: 2,
         height: "100vh",
-        overflowY: "auto",
+        overflowY: "none",
       }}
     >
       {/* Back Button */}
@@ -145,6 +160,7 @@ export default function PlaylistTracks({
       {/* Track List */}
 
       <List>
+        {console.log("tracks",tracks)}
         {tracks.items.map((item, index) => {
           const track = item.track;
 
@@ -155,7 +171,7 @@ export default function PlaylistTracks({
 
           return (
             <ListItem
-              key={track.id}
+              key={track.id+index}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -169,10 +185,9 @@ export default function PlaylistTracks({
               }}
               onClick={() => onSelectTrack(track.uri)}
             >
-              <Grid container alignItems="center">
-                {/* Index */}
+           <Grid container alignItems="center">
                 <Grid item xs={1}>
-                  <Typography>{index + 1}</Typography>
+                  <Typography>{index + 1 + (page - 1) * limit}</Typography>
                 </Grid>
 
                 {/* Album Art */}
@@ -222,6 +237,23 @@ export default function PlaylistTracks({
           );
         })}
       </List>
+
+
+      {/* Pagination */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 2,
+        }}
+      >
+        <Pagination
+          count={Math.ceil(totalTracks / limit)} // Calculate total pages
+          page={page}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Box>
     </Box>
   );
 }
