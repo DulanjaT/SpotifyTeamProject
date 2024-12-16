@@ -88,7 +88,7 @@ export default function TestMainLayout() {
       >
         <List>
           <ListItem
-            button
+            
             component={Link}
             to="/home"
             sx={getSideBarStyles("HOME")}
@@ -99,7 +99,7 @@ export default function TestMainLayout() {
             />
           </ListItem>
           <ListItem
-            button
+           
             component={Link}
             to="/search"
             sx={getSideBarStyles("SEARCH")}
@@ -110,7 +110,7 @@ export default function TestMainLayout() {
             />
           </ListItem>
           <ListItem
-            button
+            
             component={Link}
             to="/playlists"
             sx={getSideBarStyles("LIBRARY")}
@@ -121,7 +121,7 @@ export default function TestMainLayout() {
             />
           </ListItem>
           <ListItem
-            button
+            
             component={Link}
             to="/liked-songs"
             sx={getSideBarStyles("MY_PLAYLIST")}
