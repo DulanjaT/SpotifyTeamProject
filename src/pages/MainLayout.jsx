@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Drawer,
@@ -19,8 +19,31 @@ const drawerWidth = 240;
 
 export default function TestMainLayout() {
   const [currentTrackUri, setCurrentTrackUri] = useState(null);
+  const [playlists, setPlaylists] = useState([]);
 
-  // Function to update the song URI dynamically
+  useEffect(() => {
+    const fetchPlaylists = async () => {
+      try {
+        const response = await fetch("https://api.spotify.com/v1/me/playlists", {
+          headers: {
+            Authorization: `Bearer ${process.env.VITE_SPOTIFY_ACCESS_TOKEN}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch playlists");
+        }
+
+        const data = await response.json();
+        setPlaylists(data.items);
+      } catch (error) {
+        console.error("Error fetching playlists:", error);
+      }
+    };
+
+    fetchPlaylists();
+  }, []);
+
   const handleSongSelection = (trackUri) => {
     setCurrentTrackUri(trackUri);
   };
@@ -112,6 +135,18 @@ export default function TestMainLayout() {
             </ListItemIcon>
             <ListItemText primary="Library" />
           </ListItem>
+        </List>
+
+        {/* Playlists */}
+        <Typography variant="h6" sx={{ marginTop: 2, marginBottom: 1, fontWeight: "bold" }}>
+          Playlists
+        </Typography>
+        <List>
+          {playlists.map((playlist) => (
+            <ListItem button key={playlist.id} sx={{ color: "#fff", textDecoration: "none" }}>
+              <ListItemText primary={playlist.name} />
+            </ListItem>
+          ))}
         </List>
       </Box>
 

@@ -1,7 +1,15 @@
-// src/components/MadeForYou.js
 import { useState, useEffect } from "react";
 import requestWrapper from "../../spotify/requestWrapper";
-import { Typography, Container, Grid, Card, CardMedia, CardContent, Button } from "@mui/material";
+import {
+  Typography,
+  Container,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 
 export default function MadeForYou() {
   const [playlists, setPlaylists] = useState(null);
@@ -9,7 +17,7 @@ export default function MadeForYou() {
 
   useEffect(() => {
     requestWrapper("me/playlists?limit=5", null, setPlaylists, setError);
-  }, []); // Fetch the first 5 playlists from the user's library
+  }, []);
 
   if (error) {
     return (
@@ -20,12 +28,19 @@ export default function MadeForYou() {
   }
 
   if (!playlists) {
-    return <Typography variant="h6">Loading playlists...</Typography>;
+    return (
+      <Container>
+        <CircularProgress />
+        <Typography variant="h6">Loading playlists...</Typography>
+      </Container>
+    );
   }
 
   return (
     <Container>
-      <Typography variant="h5" gutterBottom>Made for You</Typography>
+      <Typography variant="h5" gutterBottom>
+        Made for You
+      </Typography>
       <Grid container spacing={3}>
         {playlists.items.map((playlist) => (
           <Grid item xs={12} sm={6} md={4} key={playlist.id}>
@@ -33,16 +48,20 @@ export default function MadeForYou() {
               <CardMedia
                 component="img"
                 height="140"
-                image={playlist.images[0]?.url}
+                image={playlist.images[0]?.url || "/placeholder-image.png"}
                 alt={playlist.name}
               />
               <CardContent>
                 <Typography variant="h6">{playlist.name}</Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                  {playlist.description || "Your curated playlist"}
+                </Typography>
                 <Button
                   variant="contained"
                   color="primary"
                   href={playlist.external_urls.spotify}
                   target="_blank"
+                  aria-label={`Listen to ${playlist.name} on Spotify`}
                 >
                   Listen
                 </Button>

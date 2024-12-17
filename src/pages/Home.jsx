@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Typography, AppBar, Toolbar, Container } from "@mui/material";
-import Search from "../components/Search/Search.jsx" // Assuming Search component is in the same directory
-import Artist from "./ArtistDemo"; // Assuming Artist component is in the same directory
+import Search from "../components/Search/Search.jsx"; // Search component
+import Artist from "./ArtistDemo"; // Artist component
+import DailyMixes from "../components/Homepage/DailyMixes.jsx"; // DailyMixes component
 
 export default function Home() {
   return (
@@ -52,6 +53,22 @@ export default function Home() {
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Artist />
         </Box>
+
+        {/* Daily Mixes */}
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{
+            marginTop: 6,
+            marginBottom: 4,
+            fontWeight: "bold",
+            color: "#fff",
+            textAlign: "center",
+          }}
+        >
+          Daily Mixes
+        </Typography>
+        <DailyMixes />
       </Container>
     </Box>
   );
