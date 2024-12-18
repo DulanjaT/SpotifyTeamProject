@@ -86,16 +86,24 @@ export default function SimpleWebPlayer({ trackUri }) {
   /* Updates the player progression every second */
   useEffect(() => {
     let interval;
+  
+    const updateProgress = () => {
+      player.getCurrentState().then((state) => {
+        if (state && isPlaying) {
+          setProgress(state.position / 1000);
+        }
+      });
+    };
+  
     if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress((prevProgress) => prevProgress + 1);
-      }, 1000); // Increment progress every second
+      interval = setInterval(updateProgress, 1000); // Sync progress every second
     } else {
-      clearInterval(interval); // Clear interval if not playing
+      clearInterval(interval);
     }
   
-    return () => clearInterval(interval); // Cleanup on unmount or when `isPlaying` changes
-  }, [isPlaying]);
+    return () => clearInterval(interval); // Cleanup
+  }, [isPlaying, player]);
+
 
   // Handle Playback for Both Playlist and Single Track
   useEffect(() => {
@@ -210,6 +218,7 @@ export default function SimpleWebPlayer({ trackUri }) {
   return (
     <Box
       sx={{
+        
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -221,10 +230,10 @@ export default function SimpleWebPlayer({ trackUri }) {
       }}
     >
       {/* Track Info */}
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h9" gutterBottom>
         {trackDetails.trackName}
       </Typography>
-      <Typography variant="body2" color="textSecondary" gutterBottom>
+      <Typography variant="caption" color="textSecondary" gutterBottom>
         {trackDetails.artistName}
       </Typography>
 
@@ -234,22 +243,24 @@ export default function SimpleWebPlayer({ trackUri }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "50px",
+          gap: "100px",
           width: "100%",
-          height: "100%",
+          height: "20px",
         }}
       >
-        <IconButton onClick={skipToPrevious}>
+        <IconButton size="small" onClick={skipToPrevious}>
           <SkipPreviousIcon sx={{ color: "#fff" }} />
         </IconButton>
-        <IconButton onClick={togglePlay}>
+
+        <IconButton size="small" onClick={togglePlay}>
           {isPlaying ? (
-            <PauseIcon sx={{ color: "#fff" }} />
+            <PauseIcon size="small" sx={{ color: "#fff" }} />
           ) : (
-            <PlayArrowIcon sx={{ color: "#fff" }} />
+            <PlayArrowIcon size="small" sx={{  color: "#fff" }} />
           )}
         </IconButton>
-        <IconButton onClick={skipToNext}>
+
+        <IconButton size="small" onClick={skipToNext}>
           <SkipNextIcon sx={{ color: "#fff" }} />
         </IconButton>
         <IconButton onClick={toggleDrawer(true)} aria-label="Queue">
@@ -262,7 +273,7 @@ export default function SimpleWebPlayer({ trackUri }) {
         direction="row"
         spacing={2}
         alignItems="center"
-        sx={{ mt: 2, width: "80%" }}
+        sx={{  flexGrow: 1, width: "80%" }}
       >
         <Typography variant="body2">
           {Math.floor(progress / 60)}:
@@ -275,7 +286,6 @@ export default function SimpleWebPlayer({ trackUri }) {
           sx={{
             color: "main.primay",
             width: "80%",
-            marginTop: "10px",
             height: "4px",
           }}
           onChange={(_, value) => {

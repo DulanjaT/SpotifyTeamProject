@@ -14,7 +14,9 @@ import SimpleWebPlayer from "../components/WebPlayback/SimplePlayer";
 import Header from "../components/Header/Header";
 import UserPlaylists from "../components/UserPlaylists/UserPlaylists";
 import { Link } from "react-router";
-const drawerWidth = 240;
+
+/* Adjust this to make the sidebar bigger/smaller */
+const drawerWidth = 170;
 
 export default function TestMainLayout() {
   const [currentTrackUri, setCurrentTrackUri] = useState(null);
@@ -42,11 +44,11 @@ export default function TestMainLayout() {
     <Box
       sx={{
         display: "grid",
-        gridTemplateRows: "65px 1fr 170px", // Adjust header height to match Toolbar
+        gridTemplateRows: "65px 1fr 130px", // Adjust header height to match Toolbar
         gridTemplateColumns: `${drawerWidth}px 1fr 200px`, // Sidebar, content, and right sidebar
         gridTemplateAreas: `
           "header header header"
-          "sidebar content content"
+          "sidebar content rightSidebar"
           "player player player"
         `,
         height: "100vh",
@@ -143,7 +145,7 @@ export default function TestMainLayout() {
         <Outlet context={{ onSelectTrack: handleSongSelection }} />
       </Box>
       {/* Right Sidebar */}
-      {/*        <Box
+              <Box
                 sx={{
                     gridArea: "rightSidebar",
                     bgcolor: "#1c1c1c",
@@ -152,19 +154,24 @@ export default function TestMainLayout() {
                 }}
             >
                 <UserPlaylists />
-            </Box> */}
+            </Box> 
 
       {/* Player */}
       <Box
-        sx={{
-          gridArea: "player",
-          bgcolor: "main.default",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100%",
-        }}
-      >
+  sx={{
+    gridArea: "player",
+    bgcolor: "#1c1c1c",
+    display: "flex",
+    flexDirection: "column", // Ensures text and controls are stacked vertically
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%", // Matches the allocated grid row height
+    overflow: "hidden", // Prevents content from spilling out
+    padding: "8px", // Add padding to avoid content touching edges
+    boxSizing: "border-box", // Include padding in the layout
+    bgcolor: "main.default"
+  }}
+>
         <SimpleWebPlayer trackUri={currentTrackUri} />
       </Box>
     </Box>
