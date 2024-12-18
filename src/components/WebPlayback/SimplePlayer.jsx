@@ -5,6 +5,12 @@ import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 
+import QueueMusicIcon from "@mui/icons-material/QueueMusic";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+
 export default function SimpleWebPlayer({ trackUri }) {
   const [accessToken, setAccessToken] = useState(null);
   const [player, setPlayer] = useState(null);
@@ -17,6 +23,9 @@ export default function SimpleWebPlayer({ trackUri }) {
     artistName: "",
     duration: 0,
   });
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
+  const [queue, setQueue] = useState([]); // Placeholder for queue data
 
   // Initialize Spotify Web Playback SDK
   useEffect(() => {
@@ -159,6 +168,32 @@ export default function SimpleWebPlayer({ trackUri }) {
     }
   };
 
+  // Fetch queue data (placeholder implementation)
+  const fetchQueue = async () => {
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/me/player/queue`, // Replace with actual API endpoint if available
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setQueue(data.queue || []); // Store queue data
+    } catch (error) {
+      console.error("Error fetching queue:", error);
+    }
+  };
+
+  // Open drawer and fetch queue data
+  const toggleDrawer = (open) => () => {
+    setIsDrawerOpen(open);
+    if (open) {
+      fetchQueue();
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -204,6 +239,9 @@ export default function SimpleWebPlayer({ trackUri }) {
         <IconButton onClick={skipToNext}>
           <SkipNextIcon sx={{ color: "#fff" }} />
         </IconButton>
+        <IconButton onClick={toggleDrawer(true)} aria-label="Queue">
+          <QueueMusicIcon sx={{ color: "#fff" }} />
+        </IconButton>
       </Box>
 
       {/* Progress Bar */}
@@ -236,6 +274,28 @@ export default function SimpleWebPlayer({ trackUri }) {
           {(trackDetails.duration % 60).toString().padStart(2, "0")}
         </Typography>
       </Stack>
+      {/* Drawer for Queue */}
+      <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
+        <Box p={2} sx={{ width: "300px" }}>
+          <Typography variant="h6" gutterBottom>
+            Playback Queue
+          </Typography>
+          <List>
+            {queue.length ? (
+              queue.map((item, index) => (
+                <ListItem key={index}>
+                  <ListItemText
+                    primary={item.name || "Unknown Track"}
+                    secondary={item.artists?.[0]?.name || "Unknown Artist"}
+                  />
+                </ListItem>
+              ))
+            ) : (
+              <Typography>No items in queue</Typography>
+            )}
+          </List>
+        </Box>
+      </Drawer>
     </Box>
   );
 }
