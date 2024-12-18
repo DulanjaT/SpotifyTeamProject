@@ -26,7 +26,6 @@ export default function SimpleWebPlayer({ trackUri }) {
       return;
     }
     setAccessToken(token);
-
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -74,6 +73,20 @@ export default function SimpleWebPlayer({ trackUri }) {
       }
     };
   }, []);
+
+  /* Updates the player progression every second */
+  useEffect(() => {
+    let interval;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setProgress((prevProgress) => prevProgress + 1);
+      }, 1000); // Increment progress every second
+    } else {
+      clearInterval(interval); // Clear interval if not playing
+    }
+  
+    return () => clearInterval(interval); // Cleanup on unmount or when `isPlaying` changes
+  }, [isPlaying]);
 
   // Handle Playback for Both Playlist and Single Track
   useEffect(() => {
