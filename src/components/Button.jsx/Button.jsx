@@ -11,7 +11,7 @@ export default function TinyButton({ icon, tooltip, onClick }) {
           fontSize: "small",
           color: "#fff", // Default white color
           "&:hover": {
-            color: "#1DB954", // Spotify green on hover
+            color: "primary.main", // Spotify green on hover
           },
         }}
       >

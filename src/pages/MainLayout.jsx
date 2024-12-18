@@ -51,16 +51,16 @@ export default function TestMainLayout() {
         `,
         height: "100vh",
         overflow: "hidden",
-        bgcolor: "#121212",
+        bgcolor: "background.default",
         color: "#fff",
       }}
     >
       {/* Header */}
-      <AppBar
+      {/* <AppBar
         position="static"
         sx={{
           gridArea: "header",
-          backgroundColor: "#1c1c1c",
+          backgroundColor: "background.paper",
           boxShadow: "none",
           width: "100%",
         }}
@@ -73,33 +73,30 @@ export default function TestMainLayout() {
         >
           <Header />
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
+      <Header />
 
       {/* Left Sidebar */}
       <Box
         sx={{
           gridArea: "sidebar",
-          bgcolor: "#1c1c1c",
+          bgcolor: "background.paper",
           padding: "16px",
           display: "flex",
           flexDirection: "column",
-          color: "#fff",
+          color: "text.primary",
+          margin: 2.5,
+          borderRadius: 1,
         }}
       >
         <List>
-          <ListItem
-            
-            component={Link}
-            to="/home"
-            sx={getSideBarStyles("HOME")}
-          >
+          <ListItem component={Link} to="/home" sx={getSideBarStyles("HOME")}>
             <ListItemText
               primary="Home"
               onClick={() => handleSidebarClick("HOME")}
             />
           </ListItem>
           <ListItem
-           
             component={Link}
             to="/search"
             sx={getSideBarStyles("SEARCH")}
@@ -110,7 +107,6 @@ export default function TestMainLayout() {
             />
           </ListItem>
           <ListItem
-            
             component={Link}
             to="/playlists"
             sx={getSideBarStyles("LIBRARY")}
@@ -121,7 +117,6 @@ export default function TestMainLayout() {
             />
           </ListItem>
           <ListItem
-            
             component={Link}
             to="/liked-songs"
             sx={getSideBarStyles("MY_PLAYLIST")}
@@ -139,8 +134,10 @@ export default function TestMainLayout() {
         sx={{
           gridArea: "content",
           overflowY: "auto",
-          padding: 0,
-          bgcolor: "#181818",
+          padding: "16px",
+          bgcolor: "background.paper",
+          margin: 2.5,
+          borderRadius: 1,
         }}
       >
         <Outlet context={{ onSelectTrack: handleSongSelection }} />
@@ -161,7 +158,7 @@ export default function TestMainLayout() {
       <Box
         sx={{
           gridArea: "player",
-          bgcolor: "#1c1c1c",
+          bgcolor: "main.default",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

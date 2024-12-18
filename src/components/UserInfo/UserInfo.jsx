@@ -28,7 +28,7 @@ export default function UserInfo() {
       <Avatar
         src={userInfo.images?.[0]?.url || ""}
         alt={userInfo.display_name || "User Avatar"}
-        sx={{ width: 40, height: 40 }}
+        sx={{ width: 32, height: 32 }}
       />
       <Typography sx={{ ml: 1, fontSize: "0.875rem", color: "white" }}>
         {userInfo.display_name}
