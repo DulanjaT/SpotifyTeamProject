@@ -34,7 +34,7 @@ export default function PlaylistTracks({
 
   // State to store the current track/playlist URI
   const [trackUri, setTrackUri] = useState(null); // Added for playlist playback
-  
+
   useEffect(() => {
     if (!isLikedSongs) {
       const offset = (page - 1) * limit;
@@ -77,7 +77,6 @@ export default function PlaylistTracks({
     addToQueue(trackUri);
   };
 
-
   if (error) {
     return (
       <Typography variant="h6" color="error">
@@ -89,8 +88,6 @@ export default function PlaylistTracks({
   if (!tracks) {
     return <Typography>Loading tracks...</Typography>;
   }
-
-  
 
   // Playlist tracks play function
 
@@ -126,8 +123,8 @@ export default function PlaylistTracks({
   return (
     <Box
       sx={{
-        bgcolor: "#121212",
-        color: "#fff",
+        bgcolor: "background.paper",
+        color: "text.primary",
         padding: 2,
         height: "100vh",
         overflowY: "none",
@@ -166,7 +163,7 @@ export default function PlaylistTracks({
       {/* Track List */}
 
       <List>
-        {console.log("tracks",tracks)}
+        {console.log("tracks", tracks)}
         {tracks.items.map((item, index) => {
           const track = item.track;
 
@@ -177,7 +174,7 @@ export default function PlaylistTracks({
 
           return (
             <ListItem
-              key={track.id+index}
+              key={track.id + index}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -186,12 +183,12 @@ export default function PlaylistTracks({
                 cursor: "pointer",
                 transition: "background-color 0.2s ease", // Smooth transition for hover
                 "&:hover": {
-                  backgroundColor: "#1db954", // Spotify green highlight
+                  backgroundColor: "background.highlight", // Spotify green highlight
                 },
               }}
               onClick={() => onSelectTrack(track.uri)}
             >
-           <Grid container alignItems="center">
+              <Grid container alignItems="center">
                 <Grid item xs={1}>
                   <Typography>{index + 1 + (page - 1) * limit}</Typography>
                 </Grid>
@@ -214,15 +211,17 @@ export default function PlaylistTracks({
 
                 {/* Track Details */}
                 <Grid item xs={4}>
-                  <Typography variant="body1">{track.name}</Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body1" color="text.primary">
+                    {track.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
                     {track.artists.map((artist) => artist.name).join(", ")}
                   </Typography>
                 </Grid>
 
                 {/* Album Name */}
                 <Grid item xs={3}>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2" color="text.primary">
                     {track.album.name}
                   </Typography>
                 </Grid>
@@ -243,7 +242,6 @@ export default function PlaylistTracks({
           );
         })}
       </List>
-
 
       {/* Pagination */}
       <Box
