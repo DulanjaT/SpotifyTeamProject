@@ -1,22 +1,26 @@
+import { green } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     mode: "dark", // Set dark mode for Spotify-like feel
     primary: {
-      main: "#1DB954", // Spotify green
+      main: "#FF4693", // Accent color (was spotify green(#1DB954))
     },
     secondary: {
-      main: "#535353", // Spotify gray
+      main: "#050208", // Dark color. (was spotify gray) #050208 is dark violet.  
     },
     background: {
-      default: "#121212", // Dark background
-      paper: "#181818", // Slightly lighter background for cards
+      default: "#050208", // Dark background
+      paper: "#24103C", // Slightly lighter background for cards
     },
     text: {
-      primary: "#FFFFFF", // White text for primary content
-      secondary: "#B3B3B3", // Light gray for secondary text
+      primary: "#DFD1F0", // Lightest color (used to be fff)
+      secondary: "#A983D8", // Sliglty darker than lightest (used to be light grey)
     },
+    test: {
+      one: "#06DEFF"
+    }
   },
   typography: {
     fontFamily: "'Roboto', 'Arial', sans-serif",
@@ -30,6 +34,10 @@ const theme = createTheme({
       fontWeight: 600,
     },
   },
+  spacing: 4,
+  shape: {
+    borderRadius: 10, // Default border radius for components
+  },
   components: {
     MuiButton: {
       styleOverrides: {
@@ -39,7 +47,36 @@ const theme = createTheme({
         },
       },
     },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          color: "#DFD1F0", // Text color
+          textTransform: "none", // Remove uppercase styling
+          "&:hover": {
+            backgroundColor: "background.paper", // Custom hover color
+          },
+        },
+      },
+    },
   },
+  MuiAppBar: {
+    styleOverrides: {
+      root: {
+        boxShadow: "none", // Removes shadow globally
+        "--Paper-overlay": "none", // Remove overlay gradient
+      },
+    },
+  },
+  MuiPaper: {
+    styleOverrides: {
+      root: {
+        boxShadow: "none", // Ensure Paper component doesn't apply shadow
+        "--Paper-overlay": "none", // Remove gradient globally for Paper
+
+      },
+    },
+  },
+
 });
 
 export default theme;

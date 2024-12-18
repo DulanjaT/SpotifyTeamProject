@@ -84,7 +84,7 @@ export default function SimpleWebPlayer({ trackUri }) {
 
       fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
         method: "PUT",
-        
+
         body: JSON.stringify(body),
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -221,7 +221,7 @@ export default function SimpleWebPlayer({ trackUri }) {
           min={0}
           max={trackDetails.duration || 100}
           sx={{
-            color: "#1db954",
+            color: "main.primay",
             width: "80%",
             marginTop: "10px",
             height: "4px",

@@ -56,6 +56,12 @@ export default function UserPlaylists() {
                 onClick={() =>
                   setSelectedPlaylist({ id: playlist.id, name: playlist.name })
                 }
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "background.paper", // Custom hover color
+                    color: "text.primary", // Change text color on hover
+                  },
+                }}
               >
                 <ListItemText
                   primary={playlist.name}
