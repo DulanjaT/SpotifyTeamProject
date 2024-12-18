@@ -118,7 +118,7 @@ export default function PlaylistTracks({
   return (
     <Box
       sx={{
-        bgcolor: "background.default",
+        bgcolor: "background.paper",
         color: "text.primary",
         padding: 2,
         height: "100vh",
@@ -176,7 +176,7 @@ export default function PlaylistTracks({
                 cursor: "pointer",
                 transition: "background-color 0.2s ease", // Smooth transition for hover
                 "&:hover": {
-                  backgroundColor: "background.paper", // Spotify green highlight
+                  backgroundColor: "background.highlight", // Spotify green highlight
                 },
               }}
               onClick={() => onSelectTrack(track.uri)}

@@ -12,7 +12,8 @@ const theme = createTheme({
     },
     background: {
       default: "#050208", // Dark background
-      paper: "#24103C", // Slightly lighter background for cards
+      paper: "#140821", // Slightly lighter background for cards
+      highlight: "#38195D",
     },
     text: {
       primary: "#DFD1F0", // Lightest color (used to be fff)

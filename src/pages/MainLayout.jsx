@@ -51,7 +51,7 @@ export default function TestMainLayout() {
         `,
         height: "100vh",
         overflow: "hidden",
-        bgcolor: "test.one",
+        bgcolor: "background.default",
         color: "#fff",
       }}
     >
@@ -85,8 +85,8 @@ export default function TestMainLayout() {
           display: "flex",
           flexDirection: "column",
           color: "text.primary",
-          margin: "10px",
-          borderRadius: "10px",
+          margin: 2.5,
+          borderRadius: 1,
         }}
       >
         <List>
@@ -134,8 +134,10 @@ export default function TestMainLayout() {
         sx={{
           gridArea: "content",
           overflowY: "auto",
-          padding: 0,
-          bgcolor: "background.default",
+          padding: "16px",
+          bgcolor: "background.paper",
+          margin: 2.5,
+          borderRadius: 1,
         }}
       >
         <Outlet context={{ onSelectTrack: handleSongSelection }} />

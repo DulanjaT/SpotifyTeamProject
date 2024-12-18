@@ -58,7 +58,7 @@ export default function UserPlaylists() {
                 }
                 sx={{
                   "&:hover": {
-                    backgroundColor: "background.paper", // Custom hover color
+                    backgroundColor: "background.highlight", // Custom hover color
                     color: "text.primary", // Change text color on hover
                   },
                 }}
