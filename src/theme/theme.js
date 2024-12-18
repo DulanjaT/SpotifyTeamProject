@@ -77,6 +77,13 @@ const theme = createTheme({
       },
     },
   },
+  MuiDrawer: {
+    styleOverrides: {
+      paper: {
+        '--Paper-overlay': 'none', // Remove the overlay globally for drawers
+      },
+    },
+  },
 
 });
 

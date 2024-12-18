@@ -70,6 +70,8 @@ export default function PlaybackQueueDrawer({ accessToken, playlistUri }) {
             width: "300px", // Adjust width of drawer
             bgcolor: "background.default", // Use theme colors
             color: "text.primary",
+            "--Paper-overlay": "none", // Remove the gradient locally for this Drawer
+            boxShadow: "none", // Optional: Remove shadow if desired
           },
         }}
       >
