@@ -1,5 +1,6 @@
 import maintainToken from "../../spotify/auth/maintainToken";
 import authorizePKCE from "../../spotify/auth/authorizePKCE";
+import { Box, Button, Typography } from "@mui/material";
 
 export default function Authorize()
 {
@@ -26,9 +27,26 @@ export default function Authorize()
 		}
 	}
 	return (
-		<div>
-			<p>Explain access requirements here</p>
-			<button onClick={authorizePKCE}>Authorize</button>
-		</div>
+		<Box
+			display="flex"
+			flexDirection="column"
+			alignItems="center"
+			justifyContent="center"
+			height="100%"
+			>
+			
+			<Typography
+				variant="h5"
+				
+				
+			>Authorize Spotify to continue
+				</Typography>
+			<Button
+			onClick={authorizePKCE}
+			variant="contained"
+			color="primary"
+			size="large"
+			>Authorize</Button>
+		</Box>
 	);
 }
