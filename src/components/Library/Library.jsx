@@ -55,7 +55,7 @@ export default function Library()
 							selected={data && e.id === id && ("/" + e.type === location.pathname)}>
 							<ListItemAvatar>
 								{data
-									? (<Avatar variant="rounded" src={e.images[0].url} />)
+									? ( e.images[0]?.url ? <Avatar variant="rounded" src={e.images[0]?.url} /> : null)
 									: (	<Skeleton variant="rounded" animation="wave">
 											<Avatar variant="rounded" />
 										</Skeleton>)}
