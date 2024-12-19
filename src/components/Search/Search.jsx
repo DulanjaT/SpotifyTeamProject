@@ -20,7 +20,7 @@ export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
-const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletContext
+  const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletContext
   useEffect(() => {
     if (!searchTerm.trim()) return;
     fetchSearchResults();
@@ -78,7 +78,7 @@ const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletCo
   return (
     <Box
       sx={{
-        bgcolor: "#121212",
+        bgcolor: "background.main",
         color: "#fff",
         padding: 2,
         height: "100vh",
