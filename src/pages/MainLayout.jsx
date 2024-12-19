@@ -44,11 +44,11 @@ export default function TestMainLayout() {
     <Box
       sx={{
         display: "grid",
-        gridTemplateRows: "65px 1fr 90px", // Adjust header height to match Toolbar
+        gridTemplateRows: "65px 1fr 130px", // Adjust header height to match Toolbar
         gridTemplateColumns: `${drawerWidth}px 1fr 200px`, // Sidebar, content, and right sidebar
         gridTemplateAreas: `
           "header header header"
-          "sidebar content rightSidebar"
+          "sidebar content content"
           "player player player"
         `,
         height: "100vh",
@@ -144,18 +144,7 @@ export default function TestMainLayout() {
       >
         <Outlet context={{ onSelectTrack: handleSongSelection }} />
       </Box>
-      {/* Right Sidebar */}
-              <Box
-                sx={{
-                    gridArea: "rightSidebar",
-                    bgcolor: "#1c1c1c",
-                    overflowY: "auto",
-                    padding: 2,
-                }}
-            >
-                <UserPlaylists />
-            </Box> 
-
+ 
       {/* Player */}
       <Box
   sx={{
