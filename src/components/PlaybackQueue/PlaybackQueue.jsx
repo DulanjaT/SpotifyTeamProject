@@ -24,32 +24,37 @@ export default function PlaybackQueueDrawer({ accessToken, playlistUri }) {
 
   // Fetch playlist/queue data from Spotify
   useEffect(() => {
-    if (isDrawerOpen && playlistUri && accessToken) {
-      const fetchQueueData = async () => {
-        try {
-          setIsLoading(true);
+    if (playlistUri && accessToken) {
+      fetchQueueData();
+    }
+  }, [ playlistUri, accessToken]);
+
+ 
+    const fetchQueueData = async () => {
+      try {
+        setIsLoading(true);
+       
           const response = await fetch(
-            `https://api.spotify.com/v1/playlists/${playlistUri}/tracks`,
+            `https://api.spotify.com/v1/me/player/queue`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
               },
-            }
-          );
-          const data = await response.json();
-          setQueueData(data.items); // Set tracks data
-        } catch (err) {
-          setError(err);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+          }
+        );
+        const uniqueTracks = [...new Map(data.items.map((item) => [item.track.id, item])).values()];
+        setQueueData(uniqueTracks);
+        
+      } catch (err) {
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
 
-      fetchQueueData();
-    }
-  }, [isDrawerOpen, playlistUri, accessToken]);
 
+    
+  }
+console.log("HELLO!");
   return (
     <Box>
       {/* Toggle Drawer Button */}
