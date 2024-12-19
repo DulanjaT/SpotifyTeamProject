@@ -46,6 +46,7 @@ export default function Artist() {
       <a href={data.external_urls?.spotify} target="_blank" rel="noopener noreferrer">
         View on Spotify
       </a>
+      
     </div>
   );
 }

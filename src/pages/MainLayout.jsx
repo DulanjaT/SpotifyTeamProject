@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 import {
   Box,
-  Drawer,
-  AppBar,
-  Toolbar,
-  Typography,
   List,
   ListItem,
   ListItemText,
+  ListItemIcon,
 } from "@mui/material";
-import { Outlet, useOutletContext } from "react-router";
+import {
+  Home as HomeIcon,
+  Search as SearchIcon,
+  LibraryMusic as LibraryMusicIcon,
+  Favorite as FavoriteIcon,
+} from "@mui/icons-material";
+import { Link, Outlet } from "react-router-dom";
 import SimpleWebPlayer from "../components/WebPlayback/SimplePlayer";
 import Header from "../components/Header/Header";
-import UserPlaylists from "../components/UserPlaylists/UserPlaylists";
-import { Link } from "react-router";
+
 const drawerWidth = 240;
 
 export default function TestMainLayout() {
   const [currentTrackUri, setCurrentTrackUri] = useState(null);
-
   const [currentTab, setCurrentTab] = useState("HOME");
 
-  // Function to update the song URI dynamically
   const handleSongSelection = (trackUri) => {
     setCurrentTrackUri(trackUri);
   };
@@ -32,7 +32,7 @@ export default function TestMainLayout() {
 
   const getSideBarStyles = (tabToStyle) => {
     if (currentTab === tabToStyle) {
-      return { textDecoration: "none", fontWeight: "bold", color: "inherit" };
+      return { textDecoration: "none", fontWeight: "bold", color: "#1DB954" };
     } else {
       return { textDecoration: "none", color: "inherit" };
     }
@@ -42,12 +42,12 @@ export default function TestMainLayout() {
     <Box
       sx={{
         display: "grid",
-        gridTemplateRows: "65px 1fr 170px", // Adjust header height to match Toolbar
-        gridTemplateColumns: `${drawerWidth}px 1fr 200px`, // Sidebar, content, and right sidebar
+        gridTemplateRows: "65px 1fr 170px",
+        gridTemplateColumns: `${drawerWidth}px 1fr`,
         gridTemplateAreas: `
-          "header header header"
-          "sidebar content content"
-          "player player player"
+          "header header"
+          "sidebar content"
+          "player player"
         `,
         height: "100vh",
         overflow: "hidden",
@@ -56,24 +56,6 @@ export default function TestMainLayout() {
       }}
     >
       {/* Header */}
-      {/* <AppBar
-        position="static"
-        sx={{
-          gridArea: "header",
-          backgroundColor: "background.paper",
-          boxShadow: "none",
-          width: "100%",
-        }}
-      >
-        <Toolbar
-          sx={{
-            minHeight: "48px", // Reduce the height
-            padding: "0 !important", // Remove any default padding
-          }}
-        >
-          <Header />
-        </Toolbar>
-      </AppBar> */}
       <Header />
 
       {/* Left Sidebar */}
@@ -90,41 +72,53 @@ export default function TestMainLayout() {
         }}
       >
         <List>
-          <ListItem component={Link} to="/home" sx={getSideBarStyles("HOME")}>
-            <ListItemText
-              primary="Home"
-              onClick={() => handleSidebarClick("HOME")}
-            />
+          <ListItem
+            component={Link}
+            to="/home"
+            sx={getSideBarStyles("HOME")}
+            onClick={() => handleSidebarClick("HOME")}
+          >
+            <ListItemIcon>
+              <HomeIcon sx={{ color: currentTab === "HOME" ? "#1DB954" : "inherit" }} />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
           </ListItem>
           <ListItem
             component={Link}
             to="/search"
             sx={getSideBarStyles("SEARCH")}
+            onClick={() => handleSidebarClick("SEARCH")}
           >
-            <ListItemText
-              primary="Search"
-              onClick={() => handleSidebarClick("SEARCH")}
-            />
+            <ListItemIcon>
+              <SearchIcon sx={{ color: currentTab === "SEARCH" ? "#1DB954" : "inherit" }} />
+            </ListItemIcon>
+            <ListItemText primary="Search" />
           </ListItem>
           <ListItem
             component={Link}
             to="/playlists"
             sx={getSideBarStyles("LIBRARY")}
+            onClick={() => handleSidebarClick("LIBRARY")}
           >
-            <ListItemText
-              primary="Library"
-              onClick={() => handleSidebarClick("LIBRARY")}
-            />
+            <ListItemIcon>
+              <LibraryMusicIcon
+                sx={{ color: currentTab === "LIBRARY" ? "#1DB954" : "inherit" }}
+              />
+            </ListItemIcon>
+            <ListItemText primary="Library" />
           </ListItem>
           <ListItem
             component={Link}
             to="/liked-songs"
             sx={getSideBarStyles("MY_PLAYLIST")}
+            onClick={() => handleSidebarClick("MY_PLAYLIST")}
           >
-            <ListItemText
-              primary="Liked songs"
-              onClick={() => handleSidebarClick("MY_PLAYLIST")}
-            />
+            <ListItemIcon>
+              <FavoriteIcon
+                sx={{ color: currentTab === "MY_PLAYLIST" ? "#1DB954" : "inherit" }}
+              />
+            </ListItemIcon>
+            <ListItemText primary="Liked Songs" />
           </ListItem>
         </List>
       </Box>
@@ -142,17 +136,6 @@ export default function TestMainLayout() {
       >
         <Outlet context={{ onSelectTrack: handleSongSelection }} />
       </Box>
-      {/* Right Sidebar */}
-      {/*        <Box
-                sx={{
-                    gridArea: "rightSidebar",
-                    bgcolor: "#1c1c1c",
-                    overflowY: "auto",
-                    padding: 2,
-                }}
-            >
-                <UserPlaylists />
-            </Box> */}
 
       {/* Player */}
       <Box

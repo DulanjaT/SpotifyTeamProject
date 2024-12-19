@@ -5,6 +5,12 @@ import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 
+import QueueMusicIcon from "@mui/icons-material/QueueMusic";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+
 export default function SimpleWebPlayer({ trackUri }) {
   const [accessToken, setAccessToken] = useState(null);
   const [player, setPlayer] = useState(null);
@@ -18,6 +24,9 @@ export default function SimpleWebPlayer({ trackUri }) {
     duration: 0,
   });
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State for drawer
+  const [queue, setQueue] = useState([]); // Placeholder for queue data
+
   // Initialize Spotify Web Playback SDK
   useEffect(() => {
     const token = window.localStorage.getItem("accessToken");
@@ -26,7 +35,6 @@ export default function SimpleWebPlayer({ trackUri }) {
       return;
     }
     setAccessToken(token);
-
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -74,6 +82,28 @@ export default function SimpleWebPlayer({ trackUri }) {
       }
     };
   }, []);
+
+  /* Updates the player progression every second */
+  useEffect(() => {
+    let interval;
+  
+    const updateProgress = () => {
+      player.getCurrentState().then((state) => {
+        if (state && isPlaying) {
+          setProgress(state.position / 1000);
+        }
+      });
+    };
+  
+    if (isPlaying) {
+      interval = setInterval(updateProgress, 1000); // Sync progress every second
+    } else {
+      clearInterval(interval);
+    }
+  
+    return () => clearInterval(interval); // Cleanup
+  }, [isPlaying, player]);
+
 
   // Handle Playback for Both Playlist and Single Track
   useEffect(() => {
@@ -159,9 +189,36 @@ export default function SimpleWebPlayer({ trackUri }) {
     }
   };
 
+  // Fetch queue data (placeholder implementation)
+  const fetchQueue = async () => {
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/me/player/queue`, // Replace with actual API endpoint if available
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setQueue(data.queue || []); // Store queue data
+    } catch (error) {
+      console.error("Error fetching queue:", error);
+    }
+  };
+
+  // Open drawer and fetch queue data
+  const toggleDrawer = (open) => () => {
+    setIsDrawerOpen(open);
+    if (open) {
+      fetchQueue();
+    }
+  };
+
   return (
     <Box
       sx={{
+        
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -173,10 +230,10 @@ export default function SimpleWebPlayer({ trackUri }) {
       }}
     >
       {/* Track Info */}
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h9" gutterBottom>
         {trackDetails.trackName}
       </Typography>
-      <Typography variant="body2" color="textSecondary" gutterBottom>
+      <Typography variant="caption" color="textSecondary" gutterBottom>
         {trackDetails.artistName}
       </Typography>
 
@@ -186,23 +243,28 @@ export default function SimpleWebPlayer({ trackUri }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "50px",
+          gap: "100px",
           width: "100%",
-          height: "100%",
+          height: "20px",
         }}
       >
-        <IconButton onClick={skipToPrevious}>
+        <IconButton size="small" onClick={skipToPrevious}>
           <SkipPreviousIcon sx={{ color: "#fff" }} />
         </IconButton>
-        <IconButton onClick={togglePlay}>
+
+        <IconButton size="small" onClick={togglePlay}>
           {isPlaying ? (
-            <PauseIcon sx={{ color: "#fff" }} />
+            <PauseIcon size="small" sx={{ color: "#fff" }} />
           ) : (
-            <PlayArrowIcon sx={{ color: "#fff" }} />
+            <PlayArrowIcon size="small" sx={{  color: "#fff" }} />
           )}
         </IconButton>
-        <IconButton onClick={skipToNext}>
+
+        <IconButton size="small" onClick={skipToNext}>
           <SkipNextIcon sx={{ color: "#fff" }} />
+        </IconButton>
+        <IconButton onClick={toggleDrawer(true)} aria-label="Queue">
+          <QueueMusicIcon sx={{ color: "#fff" }} />
         </IconButton>
       </Box>
 
@@ -211,7 +273,7 @@ export default function SimpleWebPlayer({ trackUri }) {
         direction="row"
         spacing={2}
         alignItems="center"
-        sx={{ mt: 2, width: "80%" }}
+        sx={{  flexGrow: 1, width: "80%" }}
       >
         <Typography variant="body2">
           {Math.floor(progress / 60)}:
@@ -224,7 +286,6 @@ export default function SimpleWebPlayer({ trackUri }) {
           sx={{
             color: "main.primay",
             width: "80%",
-            marginTop: "10px",
             height: "4px",
           }}
           onChange={(_, value) => {
@@ -236,6 +297,28 @@ export default function SimpleWebPlayer({ trackUri }) {
           {(trackDetails.duration % 60).toString().padStart(2, "0")}
         </Typography>
       </Stack>
+      {/* Drawer for Queue */}
+      <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
+        <Box p={2} sx={{ width: "300px" }}>
+          <Typography variant="h6" gutterBottom>
+            Playback Queue
+          </Typography>
+          <List>
+            {queue.length ? (
+              queue.map((item, index) => (
+                <ListItem key={index}>
+                  <ListItemText
+                    primary={item.name || "Unknown Track"}
+                    secondary={item.artists?.[0]?.name || "Unknown Artist"}
+                  />
+                </ListItem>
+              ))
+            ) : (
+              <Typography>No items in queue</Typography>
+            )}
+          </List>
+        </Box>
+      </Drawer>
     </Box>
   );
 }

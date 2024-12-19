@@ -8,13 +8,16 @@ import {
   Button,
   Grid,
   Pagination,
+  IconButton,
 } from "@mui/material";
 import requestWrapper from "../../spotify/requestWrapper";
 import { useOutletContext } from "react-router";
 import AddIcon from "@mui/icons-material/Add";
 import addToQueue from "../../utilities/addToQueue";
 import TinyButton from "../Button.jsx/Button";
+import { PlayArrow, PlayArrowRounded,PlayCircleFilledOutlined} from "@mui/icons-material";
 
+import PlayCircleFilledOutlinedIcon from '@mui/icons-material/PlayCircleFilledOutlined';
 export default function PlaylistTracks({
   playlistId,
   playlistName,
@@ -28,6 +31,7 @@ export default function PlaylistTracks({
   const [totalTracks, setTotalTracks] = useState(0); // Total number of tracks
   const [page, setPage] = useState(1); // Current page
   const limit = 20; // Number of tracks per page
+
   // State to store the current track/playlist URI
   const [trackUri, setTrackUri] = useState(null); // Added for playlist playback
 
@@ -61,10 +65,11 @@ export default function PlaylistTracks({
     }
   }, [playlistId, page]);
 
-  /* Handle pahe change */
+/* Handle page change */
   const handlePageChange = (event, value) => {
     setPage(value); // Update the page state
   };
+
   /* Add song to player queue */
   const handleAddToQueue = (trackUri) => {
     console.log("Adding to queue:", trackUri);
@@ -104,7 +109,7 @@ export default function PlaylistTracks({
       new CustomEvent("playPlaylist", { detail: { playlistUri } })
     );
   };
-
+// Whats th
   const getBackButton = () => {
     if (!isLikedSongs) {
       return (
@@ -133,9 +138,11 @@ export default function PlaylistTracks({
       <Typography variant="h5" gutterBottom>
         {playlistName}
       </Typography>
-      <Button variant="contained" onClick={playPlaylist} sx={{ mb: 2 }}>
-        Play playlist
+      {/* Play Playlist Button */}
+      <Button startIcon={<PlayCircleFilledOutlined />} variant="contained" onClick={playPlaylist} sx={{ mb: 2 }}>
+        Play
       </Button>
+
       {/* Table Header */}
       <Grid
         container
