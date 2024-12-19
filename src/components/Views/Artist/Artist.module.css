@@ -1,0 +1,25 @@
+.ArtistHeader
+{
+	display: flex;
+}
+
+.ArtistHeaderImage
+{
+	width: 200px;
+	height: 200px;
+}
+
+.ArtistHeaderBottomTextContainer
+{
+	display: flex;
+}
+
+.ArtistHeaderBottomTextPrimary
+{
+	padding-right: 10px;
+}
+
+.ArtistHeaderBottomTextSecondary
+{
+	padding-right: 10px;
+}

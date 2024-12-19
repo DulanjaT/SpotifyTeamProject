@@ -1,0 +1,25 @@
+.AlbumHeader
+{
+	display: flex;
+}
+
+.AlbumHeaderImage
+{
+	width: 200px;
+	height: 200px;
+}
+
+.AlbumHeaderBottomTextContainer
+{
+	display: flex;
+}
+
+.AlbumHeaderBottomTextPrimary
+{
+	padding-right: 10px;
+}
+
+.AlbumHeaderBottomTextSecondary
+{
+	padding-right: 10px;
+}

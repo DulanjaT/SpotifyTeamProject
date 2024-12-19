@@ -1,0 +1,25 @@
+.LikedHeader
+{
+	display: flex;
+}
+
+.LikedHeaderImage
+{
+	width: 200px;
+	height: 200px;
+}
+
+.LikedHeaderBottomTextContainer
+{
+	display: flex;
+}
+
+.LikedHeaderBottomTextPrimary
+{
+	padding-right: 10px;
+}
+
+.LikedHeaderBottomTextSecondary
+{
+	padding-right: 10px;
+}

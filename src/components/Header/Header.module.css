@@ -1,0 +1,25 @@
+.AppBar
+{
+	background-color: var(--mui-palette-background-paper);
+	height: 64px;
+	box-shadow: none;
+}
+
+.ToolbarSection
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;	
+}
+
+.Logo
+{
+	width: 32px;
+	height: 32px;
+}
+
+.LogoText
+{
+	text-decoration: none;
+	color: var(--mui-palette-text-primary);
+}

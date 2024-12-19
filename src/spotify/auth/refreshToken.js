@@ -1,4 +1,6 @@
-export default async function requestToken(code_verifier, code)
+//Untested
+//Infinite recursion is bad design but this would take a couple thousand hours to become a problem
+export default async function refreshToken(refresh_token)
 {
 	const res = await fetch("https://accounts.spotify.com/api/token", {
 		method: "POST",
@@ -7,10 +9,8 @@ export default async function requestToken(code_verifier, code)
 		},
 		body: new URLSearchParams({
 			client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-			redirect_uri: import.meta.env.VITE_SPOTIFY_REDIRECT_URI,
-			grant_type: "authorization_code",
-			code,
-			code_verifier
+			grant_type: "refresh_token",
+			refresh_token: refresh_token
 		})
 	});
 
@@ -19,7 +19,7 @@ export default async function requestToken(code_verifier, code)
 		const data = await res.json();
 		return (data);
 	}
-
+	
 	let error = { status: res.status };
 	if (res.status == 400)
 	{

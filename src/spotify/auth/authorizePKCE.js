@@ -7,10 +7,10 @@ function createCodeVerifier(length)
 
 //Unknown whether digest function can throw
 //https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
-async function createCodeChallenge(codeVerifier)
+async function createCodeChallenge(code_verifier)
 {
 	const encoder = new TextEncoder();
-	const utf8EncodedVerifier = encoder.encode(codeVerifier);
+	const utf8EncodedVerifier = encoder.encode(code_verifier);
 	const hashedVerifier = await window.crypto.subtle.digest("SHA-256", utf8EncodedVerifier);
 	return (btoa(String.fromCharCode(... new Uint8Array(hashedVerifier)))
 		.replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_"));
@@ -19,9 +19,9 @@ async function createCodeChallenge(codeVerifier)
 //Use state param https://datatracker.ietf.org/doc/html/rfc6749#section-4.1
 export default async function authorizePKCE()
 {
-	const codeVerifier = createCodeVerifier(64);
-	window.localStorage.setItem("codeVerifier", codeVerifier);
-	const codeChallenge = await createCodeChallenge(codeVerifier);
+	const code_verifier = createCodeVerifier(64);
+	window.localStorage.setItem("code_verifier", code_verifier);
+	const codeChallenge = await createCodeChallenge(code_verifier);
 
 	const authURL = new URL("https://accounts.spotify.com/authorize");
 	authURL.search = new URLSearchParams({

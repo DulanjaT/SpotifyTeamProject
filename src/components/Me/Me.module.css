@@ -1,0 +1,12 @@
+.Avatar
+{
+	margin-left: calc(-2 * var(--mui-spacing));
+	margin-right: calc(2 * var(--mui-spacing));
+	width: 32px;
+	height: 32px;
+}
+
+.Username
+{
+	font-size: 0.875rem;
+}

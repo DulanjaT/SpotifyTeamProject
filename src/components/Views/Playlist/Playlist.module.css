@@ -1,0 +1,25 @@
+.PlaylistHeader
+{
+	display: flex;
+}
+
+.PlaylistHeaderImage
+{
+	width: 200px;
+	height: 200px;
+}
+
+.PlaylistHeaderBottomTextContainer
+{
+	display: flex;
+}
+
+.PlaylistHeaderBottomTextPrimary
+{
+	padding-right: 10px;
+}
+
+.PlaylistHeaderBottomTextSecondary
+{
+	padding-right: 10px;
+}

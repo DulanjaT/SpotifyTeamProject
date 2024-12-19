@@ -1,53 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router";
 import { AppBar, Toolbar, Button, Typography, Box } from "@mui/material";
-import UserInfo from "../UserInfo/UserInfo";
+import Me from "../Me/Me";
 import { logout } from "../../utilities/logout"; // Adjust the relative path
 // import { ReactComponent as Logo } from "../../assets/logo.svg";
 import logo from "../../assets/logo.svg";
+import SearchField from "../SearchField/SearchField";
+import styles from "./Header.module.css";
+import SpotifyAuthContext from "../../contexts/SpotifyAuthContext";
 
-export default function Header() {
-  return (
-    <AppBar
-      position="absolute"
-      elevation={0}
-      sx={{
-        bgcolor: "background.paper",
-        height: "64",
-        boxShadow: "none",
-        "--Paper-overlay": "none",
-      }}
-    >
-      <Toolbar>
-        {/* App logo */}
-        {/* <Logo style={{ width: "50px", height: "50px" }} /> */}
-        <img
-          src={logo}
-          alt="App Logo"
-          style={{ width: "32px", height: "32" }}
-        />
-
-        {/* App Title */}
-        <Typography
-          variant="h6"
-          sx={{ flexGrow: 1, textDecoration: "none", color: "text.primary" }}
-          component={Link}
-          to="/"
-        >
-          SimpleTunes
-        </Typography>
-
-        <UserInfo />
-        {/* Navigation Links */}
-        <Box>
-          {/* <Button component={Link} to="/artist" color="inherit">
-            Artist Demo(To be removed)
-          </Button> */}
-          <Button variant="outlined" onClick={logout}>
-            Logout
-          </Button>
-        </Box>
-      </Toolbar>
-    </AppBar>
-  );
+export default function Header()
+{
+	return (
+		<AppBar elevation={0} className={styles.AppBar} >
+			<Toolbar sx={{justifyContent: "space-between"}}>
+				<div className={styles.ToolbarSection}>
+					<img src={logo} alt="App Logo" className={styles.Logo}/>
+					<Typography variant="h6" component={Link} to="/" className={styles.LogoText}>
+						SimpleTunes
+					</Typography>
+				</div>
+				<div className={styles.ToolbarSection}>
+					<SearchField />
+				</div>
+				<div className={styles.ToolbarSection}>
+					<Me />
+				</div>
+			</Toolbar>
+		</AppBar>
+	);
 }
