@@ -37,6 +37,7 @@ export default function UserPlaylists() {
         playlistId={selectedPlaylist.id} // Pass only the ID
         playlistName={selectedPlaylist.name} // Pass the name
         onBack={() => setSelectedPlaylist(null)}
+        setPlaylists={setPlaylists}
       />
     );
   }
@@ -65,7 +66,7 @@ export default function UserPlaylists() {
               >
                 <ListItemText
                   primary={playlist.name}
-                  secondary={`Tracks: ${playlist.tracks.total}`}
+                  secondary={`Tracks: ${playlist.tracks?.total || 0}`} // Use updated track count
                 />
               </ListItemButton>
               <img src={imageSrc} alt={playlist.name} width="50" />

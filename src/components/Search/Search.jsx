@@ -82,7 +82,7 @@ const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletCo
         color: "#fff",
         padding: 2,
         height: "100vh",
-        overflowY: "auto",
+        overflowY: "none",
       }}
     >
       {/* Search Input */}
@@ -158,25 +158,15 @@ const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletCo
                     />
                   )}
                 </Grid>
-                <Grid item xs={2} sx={{ textAlign: "right" }}>
-                  {/*     <Button
-                    variant="outlined"
-                    size="small"
-                    sx={{ color: "#1DB954", borderColor: "#1DB954" }}
-                    onClick={() => addToQueue(track.uri)}
-                  >
-                    Add to Queue
-                  </Button> */}
-                  <TrackOptionsMenu
-                    onAddToPlaylist={() => handleAddToPlaylist(track.uri)}
-                    onAddToQueue={() => handleAddToQueue(track.uri)}
-                  />
-                  <TinyButton
-                    icon={<AddSharpIcon />} // Replace with your desired icon
-                    tooltip="Add to Playlist"
-                    onClick={() => handleAddToPlaylist(track.uri)}
-                  />
-                </Grid>
+               {/* Track Menu */}
+                           <Grid item xs={2} sx={{ textAlign: "center" }}>
+                             <TrackOptionsMenu
+                               trackUri={track.uri}
+                               onClick={(event) => {
+                                 event.stopPropagation(); // Prevent triggering the parent ListItem onClick
+                               }}
+                             />
+                           </Grid>
                 <Grid item xs={2} sx={{ textAlign: "right" }}></Grid>
               </Grid>
             </ListItem>

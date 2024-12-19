@@ -15,9 +15,11 @@ import { useOutletContext } from "react-router";
 import AddIcon from "@mui/icons-material/Add";
 import addToQueue from "../../utilities/addToQueue";
 import TinyButton from "../Button.jsx/Button";
-import { PlayArrow, PlayArrowRounded,PlayCircleFilledOutlined} from "@mui/icons-material";
-
+import { PlayArrow, PlayArrowRounded, PlayCircleFilledOutlined } from "@mui/icons-material";
 import PlayCircleFilledOutlinedIcon from '@mui/icons-material/PlayCircleFilledOutlined';
+import TrackOptionsMenu from "../TrackOptionsMenu/TrackOptionsMenu";
+
+
 export default function PlaylistTracks({
   playlistId,
   playlistName,
@@ -31,7 +33,7 @@ export default function PlaylistTracks({
   const [totalTracks, setTotalTracks] = useState(0); // Total number of tracks
   const [page, setPage] = useState(1); // Current page
   const limit = 20; // Number of tracks per page
-
+  const [playlists, setPlaylists] = useState([]);// used to update playlists after refresh
   // State to store the current track/playlist URI
   const [trackUri, setTrackUri] = useState(null); // Added for playlist playback
 
@@ -65,7 +67,7 @@ export default function PlaylistTracks({
     }
   }, [playlistId, page]);
 
-/* Handle page change */
+  /* Handle page change */
   const handlePageChange = (event, value) => {
     setPage(value); // Update the page state
   };
@@ -88,16 +90,28 @@ export default function PlaylistTracks({
   if (!tracks) {
     return <Typography>Loading tracks...</Typography>;
   }
+  /* will be replaced with wrapper */
+  const accessToken = window.localStorage.getItem("accessToken");
+/* Refresh playlist after song is added to it */
+const refreshPlaylist = async (playlistId) => {
+  try {
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const updatedPlaylist = await response.json();
 
-  // Playlist tracks play function
-
-  // Function (WORKING) to play the playlist V#1
-  // const playPlaylist = () => {
-  //   const playlistUri = `spotify:playlist:${playlistId}`; // Construct playlist URI
-  //   console.log("Playing playlist with URI:", playlistUri);
-
-  //   setTrackUri(playlistUri); // Set this URI for SimpleWebPlayer
-  // };
+    // Update the parent state with the new playlist data
+    setPlaylists((prevPlaylists) =>
+      prevPlaylists.map((playlist) =>
+        playlist.id === playlistId ? updatedPlaylist : playlist
+      )
+    );
+  } catch (error) {
+    console.error("Failed to refresh playlist:", error);
+  }
+};
 
   // Function to play the playlist V#2
   const playPlaylist = () => {
@@ -109,7 +123,7 @@ export default function PlaylistTracks({
       new CustomEvent("playPlaylist", { detail: { playlistUri } })
     );
   };
-// Whats th
+  // Whats th
   const getBackButton = () => {
     if (!isLikedSongs) {
       return (
@@ -163,7 +177,7 @@ export default function PlaylistTracks({
       {/* Track List */}
 
       <List>
-        {console.log("tracks", tracks)}
+        
         {tracks.items.map((item, index) => {
           const track = item.track;
 
@@ -226,14 +240,13 @@ export default function PlaylistTracks({
                   </Typography>
                 </Grid>
 
-                {/* Add to Queue Button */}
+                {/* Track Menu */}
                 <Grid item xs={2} sx={{ textAlign: "center" }}>
-                  <TinyButton
-                    icon={<AddIcon />}
-                    tooltip="Add to Queue"
+                  <TrackOptionsMenu
+                    trackUri={track.uri}
+                    onPlaylistUpdate={refreshPlaylist}
                     onClick={(event) => {
-                      event.stopPropagation(); // Prevent triggering the ListItem's onClick
-                      handleAddToQueue(track.uri);
+                      event.stopPropagation(); // Prevent triggering the parent ListItem onClick
                     }}
                   />
                 </Grid>
