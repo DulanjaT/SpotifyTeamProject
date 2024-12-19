@@ -44,7 +44,7 @@ export default function TestMainLayout() {
     <Box
       sx={{
         display: "grid",
-        gridTemplateRows: "65px 1fr 130px", // Adjust header height to match Toolbar
+        gridTemplateRows: "65px 1fr 90px", // Adjust header height to match Toolbar
         gridTemplateColumns: `${drawerWidth}px 1fr 200px`, // Sidebar, content, and right sidebar
         gridTemplateAreas: `
           "header header header"
