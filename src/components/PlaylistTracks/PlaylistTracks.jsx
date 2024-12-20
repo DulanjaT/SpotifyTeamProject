@@ -152,9 +152,7 @@ const refreshPlaylist = async (playlistId) => {
       <Typography variant="h5" gutterBottom>
         {playlistName}
       </Typography>
-      {/* Play Playlist Button */}
-      <Button startIcon={<PlayCircleFilledOutlined />} variant="contained" onClick={playPlaylist} sx={{ mb: 2 }}>
-        Play
+
       {/* Play Playlist Button */}
       <Button startIcon={<PlayCircleFilledOutlined />} variant="contained" onClick={playPlaylist} sx={{ mb: 2 }}>
         Play
