@@ -15,11 +15,9 @@ import { useOutletContext } from "react-router";
 import AddIcon from "@mui/icons-material/Add";
 import addToQueue from "../../utilities/addToQueue";
 import TinyButton from "../Button.jsx/Button";
-import { PlayArrow, PlayArrowRounded, PlayCircleFilledOutlined } from "@mui/icons-material";
+import { PlayArrow, PlayArrowRounded,PlayCircleFilledOutlined} from "@mui/icons-material";
+
 import PlayCircleFilledOutlinedIcon from '@mui/icons-material/PlayCircleFilledOutlined';
-import TrackOptionsMenu from "../TrackOptionsMenu/TrackOptionsMenu";
-
-
 export default function PlaylistTracks({
   playlistId,
   playlistName,
@@ -34,6 +32,7 @@ export default function PlaylistTracks({
   const [page, setPage] = useState(1); // Current page
   const limit = 20; // Number of tracks per page
   const [playlists, setPlaylists] = useState([]);// used to update playlists after refresh
+
   // State to store the current track/playlist URI
   const [trackUri, setTrackUri] = useState(null); // Added for playlist playback
 
@@ -67,10 +66,11 @@ export default function PlaylistTracks({
     }
   }, [playlistId, page]);
 
-  /* Handle page change */
+/* Handle page change */
   const handlePageChange = (event, value) => {
     setPage(value); // Update the page state
   };
+
 
   /* Add song to player queue */
   const handleAddToQueue = (trackUri) => {
@@ -123,7 +123,7 @@ const refreshPlaylist = async (playlistId) => {
       new CustomEvent("playPlaylist", { detail: { playlistUri } })
     );
   };
-  // Whats th
+// Whats th
   const getBackButton = () => {
     if (!isLikedSongs) {
       return (
@@ -155,7 +155,11 @@ const refreshPlaylist = async (playlistId) => {
       {/* Play Playlist Button */}
       <Button startIcon={<PlayCircleFilledOutlined />} variant="contained" onClick={playPlaylist} sx={{ mb: 2 }}>
         Play
+      {/* Play Playlist Button */}
+      <Button startIcon={<PlayCircleFilledOutlined />} variant="contained" onClick={playPlaylist} sx={{ mb: 2 }}>
+        Play
       </Button>
+
 
       {/* Table Header */}
       <Grid
@@ -177,7 +181,7 @@ const refreshPlaylist = async (playlistId) => {
       {/* Track List */}
 
       <List>
-        
+       
         {tracks.items.map((item, index) => {
           const track = item.track;
 

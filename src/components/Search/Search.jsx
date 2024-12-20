@@ -78,7 +78,7 @@ export default function Search() {
   return (
     <Box
       sx={{
-        bgcolor: "background.main",
+        bgcolor: "background.paper",
         color: "#fff",
         padding: 2,
         height: "100vh",
