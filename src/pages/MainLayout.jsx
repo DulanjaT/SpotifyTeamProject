@@ -12,7 +12,7 @@ import {
   LibraryMusic as LibraryMusicIcon,
   Favorite as FavoriteIcon,
 } from "@mui/icons-material";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 import { useTheme } from "@mui/material/styles";
 import SimpleWebPlayer from "../components/WebPlayback/SimplePlayer";
 import Header from "../components/Header/Header";
