@@ -78,7 +78,7 @@ const { onSelectTrack } = useOutletContext(); // Get onSelectTrack from OutletCo
   return (
     <Box
       sx={{
-        bgcolor: "#121212",
+        bgcolor: "background.paper",
         color: "#fff",
         padding: 2,
         height: "100vh",

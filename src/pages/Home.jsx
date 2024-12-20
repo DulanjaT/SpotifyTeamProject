@@ -3,34 +3,15 @@ import { Box, Typography, AppBar, Toolbar, Container } from "@mui/material";
 import Search from "../components/Search/Search.jsx";
 import MyPlaylist from "../components/MyPlayList/MyPlaylist";
 import UserPlaylists from "../components/UserPlaylists/UserPlaylists.jsx";
+import DailyMixes from "../components/DailyMixes/DailyMixes.jsx";
 
 export default function HomePage() {
   return (
-    <Box sx={{ bgcolor: "#121212", color: "#fff", minHeight: "100vh" }}>
-      {/* AppBar/Header */}
-      <AppBar position="static" sx={{ bgcolor: "#1DB954" }}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Spotify App
-          </Typography>
-        </Toolbar>
-      </AppBar>
+    <Box sx={{ bgcolor: "background.paper", color: "#fff", minHeight: "100vh" }}>
 
       {/* Main Content */}
       <Container sx={{ paddingTop: 4 }}>
         {/* Welcome Message */}
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{
-            textAlign: "center",
-            marginBottom: 4,
-            fontWeight: "bold",
-            color: "#fff",
-          }}
-        >
-          Welcome to Your Spotify Dashboard
-        </Typography>
 
         {/* Library (Your Playlists) Section */}
         <Typography
@@ -44,7 +25,6 @@ export default function HomePage() {
             textAlign: "center",
           }}
         >
-          Your Playlists
         </Typography>
         <Box sx={{ marginBottom: 6 }}>
           <UserPlaylists />
@@ -67,6 +47,11 @@ export default function HomePage() {
         <Box sx={{ marginBottom: 6 }}>
           <MyPlaylist />
         </Box>
+
+      
+<Box sx={{ marginBottom: 6 }}>
+  <DailyMixes />
+</Box>
 
         {/* Search Component at the end */}
         <Box sx={{ marginTop: 6, marginBottom: 6 }}>

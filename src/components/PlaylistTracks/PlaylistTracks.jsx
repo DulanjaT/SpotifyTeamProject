@@ -163,7 +163,7 @@ export default function PlaylistTracks({
       {/* Track List */}
 
       <List>
-        {console.log("tracks", tracks)}
+       
         {tracks.items.map((item, index) => {
           const track = item.track;
 

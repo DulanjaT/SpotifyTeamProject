@@ -42,7 +42,8 @@ export default function UserPlaylists() {
   }
 
   return (
-    <Box p={2}>
+    <Box p={2}
+    sx={{backgroundColor:"background.paper"}}>
       <Typography variant="h5" gutterBottom>
         Your Playlists
       </Typography>

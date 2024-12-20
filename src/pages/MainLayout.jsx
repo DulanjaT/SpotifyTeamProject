@@ -13,14 +13,16 @@ import {
   Favorite as FavoriteIcon,
 } from "@mui/icons-material";
 import { Link, Outlet } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 import SimpleWebPlayer from "../components/WebPlayback/SimplePlayer";
 import Header from "../components/Header/Header";
 
 const drawerWidth = 240;
 
 export default function TestMainLayout() {
-  const [currentTrackUri, setCurrentTrackUri] = useState(null);
   const [currentTab, setCurrentTab] = useState("HOME");
+  const [currentTrackUri, setCurrentTrackUri] = useState(null);
+  const theme = useTheme();
 
   const handleSongSelection = (trackUri) => {
     setCurrentTrackUri(trackUri);
@@ -30,13 +32,15 @@ export default function TestMainLayout() {
     setCurrentTab(selectedTab);
   };
 
-  const getSideBarStyles = (tabToStyle) => {
-    if (currentTab === tabToStyle) {
-      return { textDecoration: "none", fontWeight: "bold", color: "#1DB954" };
-    } else {
-      return { textDecoration: "none", color: "inherit" };
-    }
-  };
+  const getSideBarStyles = (tabToStyle) => ({
+    textDecoration: "none",
+    fontWeight: currentTab === tabToStyle ? "bold" : "normal",
+    color: currentTab === tabToStyle ? theme.palette.primary.main : "inherit",
+  });
+
+  const getIconStyles = (tabToStyle) => ({
+    color: currentTab === tabToStyle ? theme.palette.primary.main : "inherit",
+  });
 
   return (
     <Box
@@ -52,7 +56,7 @@ export default function TestMainLayout() {
         height: "100vh",
         overflow: "hidden",
         bgcolor: "background.default",
-        color: "#fff",
+        color: theme.palette.text.primary,
       }}
     >
       {/* Header */}
@@ -66,7 +70,7 @@ export default function TestMainLayout() {
           padding: "16px",
           display: "flex",
           flexDirection: "column",
-          color: "text.primary",
+          color: theme.palette.text.primary,
           margin: 2.5,
           borderRadius: 1,
         }}
@@ -79,7 +83,7 @@ export default function TestMainLayout() {
             onClick={() => handleSidebarClick("HOME")}
           >
             <ListItemIcon>
-              <HomeIcon sx={{ color: currentTab === "HOME" ? "#1DB954" : "inherit" }} />
+              <HomeIcon sx={getIconStyles("HOME")} />
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
@@ -90,7 +94,7 @@ export default function TestMainLayout() {
             onClick={() => handleSidebarClick("SEARCH")}
           >
             <ListItemIcon>
-              <SearchIcon sx={{ color: currentTab === "SEARCH" ? "#1DB954" : "inherit" }} />
+              <SearchIcon sx={getIconStyles("SEARCH")} />
             </ListItemIcon>
             <ListItemText primary="Search" />
           </ListItem>
@@ -101,9 +105,7 @@ export default function TestMainLayout() {
             onClick={() => handleSidebarClick("LIBRARY")}
           >
             <ListItemIcon>
-              <LibraryMusicIcon
-                sx={{ color: currentTab === "LIBRARY" ? "#1DB954" : "inherit" }}
-              />
+              <LibraryMusicIcon sx={getIconStyles("LIBRARY")} />
             </ListItemIcon>
             <ListItemText primary="Library" />
           </ListItem>
@@ -114,9 +116,7 @@ export default function TestMainLayout() {
             onClick={() => handleSidebarClick("MY_PLAYLIST")}
           >
             <ListItemIcon>
-              <FavoriteIcon
-                sx={{ color: currentTab === "MY_PLAYLIST" ? "#1DB954" : "inherit" }}
-              />
+              <FavoriteIcon sx={getIconStyles("MY_PLAYLIST")} />
             </ListItemIcon>
             <ListItemText primary="Liked Songs" />
           </ListItem>
@@ -141,7 +141,7 @@ export default function TestMainLayout() {
       <Box
         sx={{
           gridArea: "player",
-          bgcolor: "main.default",
+          bgcolor: theme.palette.background.highlight,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
