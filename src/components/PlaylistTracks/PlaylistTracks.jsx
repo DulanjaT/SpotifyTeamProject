@@ -15,9 +15,10 @@ import { useOutletContext } from "react-router";
 import AddIcon from "@mui/icons-material/Add";
 import addToQueue from "../../utilities/addToQueue";
 import TinyButton from "../Button.jsx/Button";
-import { PlayArrow, PlayArrowRounded,PlayCircleFilledOutlined} from "@mui/icons-material";
+import { PlayCircleFilledOutlined} from "@mui/icons-material";
 
 import PlayCircleFilledOutlinedIcon from '@mui/icons-material/PlayCircleFilledOutlined';
+import TrackOptionsMenu from "../TrackOptionsMenu/TrackOptionsMenu";
 export default function PlaylistTracks({
   playlistId,
   playlistName,
@@ -152,9 +153,7 @@ const refreshPlaylist = async (playlistId) => {
       <Typography variant="h5" gutterBottom>
         {playlistName}
       </Typography>
-      {/* Play Playlist Button */}
-      <Button startIcon={<PlayCircleFilledOutlined />} variant="contained" onClick={playPlaylist} sx={{ mb: 2 }}>
-        Play
+    
       {/* Play Playlist Button */}
       <Button startIcon={<PlayCircleFilledOutlined />} variant="contained" onClick={playPlaylist} sx={{ mb: 2 }}>
         Play

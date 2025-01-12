@@ -12,12 +12,12 @@ import {
   LibraryMusic as LibraryMusicIcon,
   Favorite as FavoriteIcon,
 } from "@mui/icons-material";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 import { useTheme } from "@mui/material/styles";
 import SimpleWebPlayer from "../components/WebPlayback/SimplePlayer";
 import Header from "../components/Header/Header";
 import UserPlaylists from "../components/UserPlaylists/UserPlaylists";
-import { Link } from "react-router";
+
 
 /* Adjust this to make the sidebar bigger/smaller */
 const drawerWidth = 170;
