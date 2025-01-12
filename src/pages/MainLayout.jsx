@@ -144,7 +144,6 @@ export default function TestMainLayout() {
       <Box
   sx={{
     gridArea: "player",
-    bgcolor: "#1c1c1c",
     display: "flex",
     flexDirection: "column", // Ensures text and controls are stacked vertically
     alignItems: "center",
