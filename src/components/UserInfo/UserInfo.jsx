@@ -24,19 +24,13 @@ export default function UserInfo() {
   }
 
   return (
-    <Box display="flex" alignItems="center" p={4}>
+    <Box display="flex" alignItems="center" p={2}>
       <Avatar
         src={userInfo.images?.[0]?.url || ""}
         alt={userInfo.display_name || "User Avatar"}
-        sx={{
-          width: 28,
-          height: 28,
-          backgroundColor: userInfo.images?.[0]?.url
-            ? "text.primary"
-            : "text.primary", // Fallback color if no image
-        }}
+        sx={{ width: 32, height: 32 }}
       />
-      <Typography sx={{ ml: 2, fontSize: "0.875rem", color: "white" }}>
+      <Typography sx={{ ml: 1, fontSize: "0.875rem", color: "white" }}>
         {userInfo.display_name}
       </Typography>
     </Box>
