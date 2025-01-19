@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   IconButton,
   Menu,
@@ -34,9 +34,7 @@ export default function TrackOptionsMenu({ trackUri, onPlaylistUpdate }) {
     setPlaylistMenuAnchorEl(null);
   };
 
-  const handlePlaylistMenuOpen = (event) => {
-    setPlaylistMenuAnchorEl(event.currentTarget);
-  };
+ 
   /* Messing around with a delayed open */
   const handleDelayedPlaylistMenuOpen = (event) => {
     const currentTarget = event.currentTarget; // Capture the current target immediately
