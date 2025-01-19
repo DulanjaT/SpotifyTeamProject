@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   Box,
   List,
@@ -16,7 +16,7 @@ import { Link, Outlet } from "react-router";
 import { useTheme } from "@mui/material/styles";
 import SimpleWebPlayer from "../components/WebPlayback/SimplePlayer";
 import Header from "../components/Header/Header";
-import UserPlaylists from "../components/UserPlaylists/UserPlaylists";
+
 
 
 /* Adjust this to make the sidebar bigger/smaller */
@@ -52,9 +52,9 @@ export default function TestMainLayout() {
         gridTemplateRows: "65px 1fr 130px", // Adjust header height to match Toolbar
         gridTemplateColumns: `${drawerWidth}px 1fr 200px`, // Sidebar, content, and right sidebar
         gridTemplateAreas: `
-          "header header"
-          "sidebar content"
-          "player player"
+          "header header header"
+          "sidebar content content"
+          "player player player"
         `,
         height: "100vh",
         overflow: "hidden",
@@ -145,13 +145,13 @@ export default function TestMainLayout() {
   sx={{
     gridArea: "player",
     display: "flex",
-    flexDirection: "column", // Ensures text and controls are stacked vertically
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "100%", // Matches the allocated grid row height
-    overflow: "hidden", // Prevents content from spilling out
-    padding: "8px", // Add padding to avoid content touching edges
-    boxSizing: "border-box", // Include padding in the layout
+    height: "100%", 
+    overflow: "hidden",
+    padding: "8px", 
+    boxSizing: "border-box", 
     bgcolor: "main.default"
   }}
 >

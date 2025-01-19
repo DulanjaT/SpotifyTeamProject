@@ -3,18 +3,53 @@
 A collaborative Spotify application that allows users to browse, search, and manage playlists with an integrated web player.
 
 
-## Features
-- User Authentication: Authenticate users with Spotify using OAuth.
-- Browse Music: Navigate through Home, Search, Library, and Liked Songs tabs.
-- Playlist Management: View and manage user playlists.
-- Web Player: Play and control tracks directly within the app.
+## Features ✨
 
-## Tech Stack
-- Frontend: React, Material-UI
-- Backend: Node.js, Express
-- API Integration: Spotify Web API
-- Environment Management: Vite
+- <span class="highlight">User Authentication:</span> Authenticate users with Spotify using OAuth.
+- <span class="highlight">Browse Music:</span> Navigate through Home, Search, Library, and Liked Songs tabs.
 
+### **Browse Music**
+- Navigate through intuitive sections like:
+  - <span class="highlight">Home(WIP)</span>: Discover personalized recommendations and recent activity.
+  - <span class="highlight">Search</span>: Find songs, albums, artists, and playlists instantly.
+  - <span class="highlight">Library</span>: Access your saved playlists, albums, and artists.
+  - <span class="highlight">Liked Songs(WIP)</span>: Quickly view and play songs marked as favorites.
+
+### **Playlist Management**
+- <span class="highlight">View Playlists</span>: Display detailed information, including tracks, cover art, and playlist descriptions.
+- <span class="highlight">Add to Playlist</span>: Add songs from anywhere in the app to any playlist in your library.
+
+### **Web Player Integration**
+- Play, pause, and control music directly within the app using the Spotify Web Playback SDK.
+- Display track details such as song title, artist, and album cover in real-time.
+- Dynamic song progress bar and playback controls for a seamless listening experience.
+
+### **Dynamic Routing**
+- Smooth navigation across app sections using React Router.
+- No page reloads, ensuring a fast and responsive user experience.
+
+## Tech Stack 🛠️
+
+### Frontend
+- **[React](https://react.dev/)**: Component-based UI development.
+- **[Material-UI](https://mui.com/material-ui/#/)**: Modern, customizable UI components.
+- **[React Router](https://reactrouter.com/)**: Enables seamless navigation between pages without reloading the app.
+
+### Backend
+- **[Node.js](https://nodejs.org/en)**: JavaScript runtime for server-side logic.
+- **[Express](https://expressjs.com/)**: Minimalist web framework for building APIs.
+
+### API Integration
+- **[Spotify Web API](https://developer.spotify.com/documentation/web-api)**: Fetch user data, playlists, and playback information.
+
+### Environment Management
+- **[Vite](https://vite.dev/)**: High-performance build tool and development server.
+
+## Screenshots
+![Picture of app home screen](home.png)
+
+![Picture of app search screen](search.png)
+![Picture of app library screen](library.png)
 ## Installation Instructions
 
 1.	Clone the repository:
@@ -32,9 +67,9 @@ npm install
 3.	Set up the environment variables:
 
 - Create a .env file in the project root.
-- Add the following content to .env:
+- Add the following snippet to .env:
 
-```shell
+```
 VITE_SPOTIFY_CLIENT_ID=your-client-id
 VITE_SPOTIFY_SCOPE=playlist-read-private playlist-modify-private playlist-modify-public streaming user-read-playback-state user-modify-playback-state user-read-currently-playing app-remote-control user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private
 VITE_SPOTIFY_REDIRECT_URI=http://localhost:5173/getToken
@@ -50,17 +85,20 @@ Open http://localhost:5173.
 
 ## Project Structure
 
+```bash
 SpotifyTeamProject/
 ├── public/                # Static assets
 ├── src/
 │   ├── components/        # Reusable components (e.g., Header, Sidebar, Player)
 │   ├── pages/             # Route-specific components
 │   ├── utils/             # Helper functions and constants
-│   └── App.jsx            # Main application file
+│   ├── App.jsx            # Main application file
+│   ├── theme/             # MUI theme configuration
+│   └── spotify/           # Spotify OAuth and API integration
 ├── .env                   # Environment variables
 ├── package.json           # Node.js dependencies and scripts
 └── README.md              # Project documentation
-
+```
 ## How it Works
 
 1. Authentication: The app uses Spotify’s OAuth to grant access to user accounts and fetch data.
@@ -95,34 +133,20 @@ git push origin feature/your-feature
 
 5. Open a pull request.
 
-## License 
-This project is licensed under the MIT License.
+## License 📜
 
-## Acknowledgements
--	Spotify Web API: https://developer.spotify.com/documentation/web-api
--	Material-UI: https://mui.com/material-ui/#/
--	React Router: https://reactrouter.com/
+This project is licensed under the MIT License. See the LICENSE file for details.
 
+## Acknowledgements 🙏
+Team Contributions: A big thanks to all team members for their dedication and effort in bringing this project to life.
+- <span class="highlight">Spotify for Developers:</span> For providing a powerful API that made this project possible.
+- <span class="highlight">Open-Source Community:</span> For invaluable resources, tools, and documentation that supported our development process.
+- [Margit Tennosaar](https://github.com/margittennosaar/margittennosaar) & [Santosh Kalwar](https://github.com/kalwar): For guiding us throughout the project lifecycle and offering insightful feedback.
 
-****************************************
-******** TO BE DELETED ****************
-****************************************
+<style>
+    .highlight{
+        color: #FF4693;
+        font-weight: bold;
+    }
+</style>
 
-## Installation instructions
-In Spotify_Playlist_App/
-1. Run in terminal:
-```shell
-npm install
-```
-2. Create .env file in root of project.
-3. Copy this text into .env file:
-
-VITE_SPOTIFY_CLIENT_ID=1a0452d5280943149451e81f4c9b52bf
-VITE_SPOTIFY_SCOPE=playlist-read-private playlist-modify-private playlist-modify-public streaming user-read-playback-state user-modify-playback-state user-read-currently-playing app-remote-control user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private
-VITE_SPOTIFY_REDIRECT_URI=http://localhost:5173/getToken
-
-4. In terminal:
-```shell
-npm run dev
-```
-5. Open localhost:5173 in browser
